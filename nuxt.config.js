@@ -97,7 +97,7 @@ export default {
     middleware: ['auth']
 },
   axios: {
-    baseURL: 'http://localhost:8000/api/'
+    baseURL: 'https://api.chate.lt/api/'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
