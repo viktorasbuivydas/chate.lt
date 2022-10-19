@@ -82,21 +82,20 @@ export default {
 </script>
 
 <script setup>
-import { useContext, useRoute } from "@nuxtjs/composition-api";
+import { useContext, useRouter } from "@nuxtjs/composition-api";
 import { ref } from "vue";
 
 const errors = ref({});
 const form = ref({});
 const { $auth } = useContext();
-const route = useRoute();
+const router = useRouter();
 const login = () => {
   $auth
     .loginWith("local", {
       data: form.value,
     })
     .then((response) => {
-      console.log(route);
-      route.push("/home");
+      router.push("/home");
     });
 };
 </script>

@@ -19,7 +19,7 @@ export default {
       { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded' }
     ]
   },
-
+  target: 'server',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/css/main.css'
