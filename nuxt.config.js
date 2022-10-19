@@ -70,7 +70,7 @@ export default {
     '+': resolve(__dirname, './data'),
   },
   auth: {
-    baseURL: process.env.API_BASE | "http://localhost/api",
+    baseURL: process.env.API_BASE | "http://localhost:8000/api",
     redirect: {
       home: '/home'
     },
@@ -98,7 +98,7 @@ export default {
     middleware: ['auth']
 },
 axios: {
-  baseURL: process.env.API_BASE | "http://localhost/api"
+  baseURL: process.env.API_BASE | "http://localhost:8000/api"
 },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

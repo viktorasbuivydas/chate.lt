@@ -95,7 +95,8 @@ const login = () => {
       data: form.value,
     })
     .then((response) => {
-      router.push("/home");
+      console.log(route);
+      route.push("/home");
     });
 };
 </script>
