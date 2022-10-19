@@ -70,7 +70,7 @@ export default {
     '+': resolve(__dirname, './data'),
   },
   auth: {
-    baseURL: 'https://api.chate.lt/api/',
+    baseURL: process.env.API_BASE | "http://localhost/api",
     redirect: {
       home: '/home'
     },
@@ -98,7 +98,7 @@ export default {
     middleware: ['auth']
 },
 axios: {
-  baseURL: 'https://api.chate.lt/api/'
+  baseURL: process.env.API_BASE | "http://localhost/api"
 },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
