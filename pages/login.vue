@@ -1,8 +1,5 @@
 <template>
-  <form
-    @submit.prevent="login"
-    class="w-full lg:w-1/2 flex justify-center bg-white dark:bg-gray-900"
-  >
+  <div class="w-full lg:w-1/2 flex justify-center bg-white dark:bg-gray-900">
     <div
       class="w-full sm:w-4/6 md:w-3/6 lg:w-2/3 text-gray-800 dark:text-gray-100 flex flex-col justify-center px-2 sm:px-0 py-16"
     >
@@ -56,7 +53,7 @@
       </div>
       <div class="px-2 sm:px-6">
         <button
-          type="submit"
+          @click="submit"
           class="focus:outline-none w-full sm:w-auto bg-blue-700 transition duration-150 ease-in-out hover:bg-blue-600 rounded text-white px-8 py-3 text-sm mt-6"
         >
           Prisijungti
@@ -72,7 +69,7 @@
         </p>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
