@@ -53,7 +53,7 @@
       </div>
       <div class="px-2 sm:px-6">
         <button
-          @click="submit"
+          @click="login"
           class="focus:outline-none w-full sm:w-auto bg-blue-700 transition duration-150 ease-in-out hover:bg-blue-600 rounded text-white px-8 py-3 text-sm mt-6"
         >
           Prisijungti
