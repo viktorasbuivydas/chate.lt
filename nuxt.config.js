@@ -47,12 +47,6 @@ export default {
     '@nuxtjs/auth-next',
   ],
 
-  runtimeConfig: {
-    public: {
-      baseURL: process.env.BASE_URL
-    }
-  },
-  
   axios: {
     proxy: true,
     credentials: true
@@ -70,7 +64,7 @@ export default {
     '+': resolve(__dirname, './data'),
   },
   auth: {
-    baseURL: process.env.API_BASE | "http://localhost:8000/api",
+    baseURL: process.env.API_BASE,
     redirect: {
       home: '/home'
     },
@@ -95,7 +89,7 @@ export default {
     }
   },
 axios: {
-  baseURL: process.env.API_BASE | "http://localhost:8000/api"
+  baseURL: process.env.API_BASE
 },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

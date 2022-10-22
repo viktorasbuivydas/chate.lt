@@ -84,7 +84,7 @@ import { ref } from "vue";
 
 const errors = ref({});
 const form = ref({});
-const { $auth } = useContext();
+const { $auth, $axios } = useContext();
 const router = useRouter();
 const login = () => {
   $auth
