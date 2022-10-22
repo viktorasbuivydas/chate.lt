@@ -94,9 +94,6 @@ export default {
       }
     }
   },
-  router: {
-    middleware: ['auth']
-},
 axios: {
   baseURL: process.env.API_BASE | "http://localhost:8000/api"
 },
