@@ -18,6 +18,7 @@ module.exports = {
         'grayish': '#7E7E8F'
       },
       spacing: {
+        '25': '100px',
         '57.5': '230px',
         '82.5': '330px'
       },

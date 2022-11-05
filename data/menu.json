@@ -75,5 +75,15 @@
         "name": "Nustatymai",
         "icon": "settings",
         "route_url": "/settings"
+    },
+    {
+        "name": "Profilis",
+        "icon": "person",
+        "route_url": "/profile"
+    },
+    {
+        "name": "Atsijungti",
+        "icon": "logout",
+        "route_url": "/"
     }
 ]

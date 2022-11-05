@@ -1,21 +1,20 @@
 <template>
-  <div>
+  <div class="w-full">
     <div class="flex flex-col md:hidden space-y-2 text-sm md:text-md">
       <div
         class="cursor-pointer p-4 rounded-xl font-semibold bg-brand hover:text-white flex justify-between items-center text-white"
         @click="toggled = !toggled"
       >
         <div class="flex space-x-2 items-center">
-          <!-- <Material :icon="activeItem.icon" />
-          <span>{{ activeItem.name }}</span> -->
+          <Material :icon="activeItem.icon" />
+          <span>{{ activeItem.name }}</span>
         </div>
         <div>
           <Material icon="expand_more" v-if="toggled" />
           <Material icon="expand_less" v-else />
         </div>
       </div>
-
-      <div v-if="!toggled">
+      <div v-if="!toggled" class="bg-white">
         <button
           v-for="(item, index) in items"
           :key="index"
@@ -23,8 +22,8 @@
           v-if="activeItem.name !== item.name"
           class="w-full p-4 hover:bg-brand hover:text-white rounded-xl font-semibold space-x-2 flex items-center text-grayish"
         >
-          <!-- <Material :icon="item.icon" /> -->
-          <!-- <span>{{ item.name }}</span> -->
+          <Material :icon="item.icon" />
+          <span>{{ item.name }}</span>
         </button>
       </div>
     </div>
@@ -47,10 +46,10 @@ const router = useRouter();
 const toggled = ref(true);
 
 const isMobileSidebarOpened = ref(false);
-console.log(route.value.name);
 
 const activeItem = computed(() => {
-  return props.items.find((item) => item.route_url === route.value.path);
+  const currentRoute = "/" + route.value.path.split("/")[1];
+  return props.items.find((item) => item.route_url === currentRoute);
 });
 
 const selectLink = (item) => {

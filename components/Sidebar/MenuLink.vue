@@ -1,17 +1,16 @@
 <template>
   <nuxt-link
     :to="url"
-    class="p-4 rounded-xl font-semibold hover:bg-brand hover:text-white flex space-x-2 items-center"
+    class="flex flex-row space-x-2 items-center hover:bg-gray-100 rounded-xl p-2"
     :class="[
-      active ? 'bg-brand hover:bg-brand-hover text-white' : 'text-grayish',
+      active ? 'bg-brand hover:bg-brand-hover text-white' : 'text-gray-800',
     ]"
   >
     <slot />
     <slot name="trailing" />
   </nuxt-link>
 </template>
-<script>
-export default {
-  props: ["active", "url"],
-};
+<script setup>
+import Material from "@/Material.vue";
+const props = defineProps(["active", "url"]);
 </script>

@@ -1,13 +1,16 @@
 <template>
-  <div class="hidden flex-col md:flex space-y-2">
+  <div class="hidden md:flex flex-col space-y-2">
     <SidebarMenuLink
       v-for="(item, index) in items"
       :key="index"
       :url="item.route_url"
-      :active="route.path === item.route_url"
+      :active="item.route_url === currentRoute"
+      class="flex flex-col"
     >
-      <Material :icon="item.icon" />
-      <span>{{ item.name }}</span>
+      <div class="flex flex-col justify-center items-center text-xs">
+        <Material :icon="item.icon" />
+        <span>{{ item.name }}</span>
+      </div>
     </SidebarMenuLink>
   </div>
 </template>
@@ -25,14 +28,13 @@ const props = defineProps({
   },
 });
 const route = useRoute();
-console.log("current name", route.value.path);
+const currentRoute = computed(() => {
+  return "/" + route.value.path.split("/")[1];
+});
 
 const isMobileSidebarOpened = ref(false);
 
 const activeItem = computed(() => {
-  return {
-    name: "test",
-    icon: "icon",
-  };
+  return props.items.find((item) => item.route_url === currentRoute.value);
 });
 </script>

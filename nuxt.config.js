@@ -45,6 +45,7 @@ export default {
     '@nuxtjs/i18n',
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
+    'simple-code-editor/nuxt',
   ],
 
   axios: {
@@ -74,7 +75,13 @@ export default {
           property: 'token',
           global: true,
           required: true,
-          type: 'Bearer'
+          type: 'Bearer',
+          maxAge: 86400 * 2
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          data: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30
         },
         user: {
           property: '',
@@ -83,7 +90,8 @@ export default {
         endpoints: {
           login: { url: 'login', method: 'post' },
           logout: { url: 'logout', method: 'post' },
-          user: { url: 'user', method: 'get' }
+          user: { url: 'user', method: 'get' },
+          refresh: { url: '/api/auth/refresh', method: 'post' }
         },
       }
     }
