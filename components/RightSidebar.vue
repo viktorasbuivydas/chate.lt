@@ -11,22 +11,30 @@
       </div>
       <div class="flex flex-col space-y-1 mt-4 -mx-2 h-100 overflow-y-auto">
         <nuxt-link
-          to="/"
-          class="flex flex-row hover:bg-gray-100 rounded-xl p-2"
           v-for="user in users"
+          :to="
+            localePath({
+              name: 'about-username',
+              params: { username: user.user.username },
+            })
+          "
+          class="flex flex-row hover:bg-gray-100 rounded-xl p-2"
         >
           <div
             class="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full"
           >
-            <Material icon="smartphone" />
+            <Material icon="smartphone" v-if="user.is_mobile" />
+            <Material icon="computer" v-else />
           </div>
-          <div class="flex flex-col justify-center items-start text-left">
-            <div
-              class="flex justify-between items-center space-x-2 w-full px-2"
-            >
-              <div class="text-sm font-semibold">{{ user.user.name }}</div>
+          <div
+            class="flex w-full flex-col justify-center items-start text-left"
+          >
+            <div class="flex justify-between w-full">
+              <div class="text-sm font-semibold ml-2">
+                {{ user.user.username }}
+              </div>
               <div
-                class="flex items-center justify-center text-xs text-white bg-green-500 h-4 w-4 rounded-full leading-none"
+                class="flex text-xs text-white bg-green-500 h-4 w-4 rounded-full leading-none"
               ></div>
             </div>
           </div>

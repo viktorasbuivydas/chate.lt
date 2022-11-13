@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <div>settings</div>
+    <div>Nustatymai</div>
   </Card>
 </template>
 

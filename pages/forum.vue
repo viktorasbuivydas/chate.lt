@@ -2,7 +2,7 @@
   <Card class="flex flex-col sm:flex-row bg-white space-x-10 space-y-4">
     <div class="sm:space-y-0 w-full">
       <div class="sm:p-4 flex flex-col space-y-2">
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="newspaper" />
           <span>Atnaujinimų sąrašas</span>
           <span
@@ -11,21 +11,21 @@
             2
           </span>
         </SidebarMenuLink>
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="assistant" />
           <span>Pasiūlymų skiltis</span>
         </SidebarMenuLink>
         <br />
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="toggle_on" />
           <span>Aktyvios temos</span>
         </SidebarMenuLink>
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="grade" />
           <span>Naujos temos</span>
         </SidebarMenuLink>
         <br />
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="forum" />
           <span>aaaaa temos</span>
         </SidebarMenuLink>

@@ -25,7 +25,9 @@
                 :message="message"
                 @replyTo="replyTo($event)"
                 :type="
-                  message.user.name === $auth.user.data.name ? 'user' : 'toUser'
+                  message.user.username === $auth.user.data.username
+                    ? 'user'
+                    : 'toUser'
                 "
               />
             </div>
@@ -41,13 +43,19 @@
         </div>
         <div v-if="content.to" class="flex items-center space-x-2 w-full mb-4">
           <div>
-            Žinutė skirta: <b>{{ content.to }}</b>
+            <b>{{ content.to }}</b>
           </div>
-          <button class="bg-gray-200 rounded-md p-1" @click="removeTo">
+          <button
+            class="text-brand flex items-center rounded-md p-1"
+            @click="removeTo"
+          >
             <Material icon="close" />
           </button>
         </div>
-        <div class="flex items-center flex-row w-full h-16">
+        <form
+          @submit.prevent="writeMessage"
+          class="flex items-center flex-row w-full h-16"
+        >
           <div>
             <button
               class="flex items-center justify-center text-gray-400 hover:text-gray-600"
@@ -75,9 +83,9 @@
                 v-model="content.body"
                 class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
               />
-              <button
+              <div
                 @click="showEmojis = !showEmojis"
-                class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
+                class="cursor-pointer absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
               >
                 <svg
                   class="w-6 h-6"
@@ -93,16 +101,17 @@
                     d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-              </button>
+              </div>
             </div>
           </div>
           <div class="ml-4">
             <button
               @click="writeMessage"
+              type="submit"
               class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
             >
-              <span>Send</span>
-              <span class="ml-2">
+              <span>Rašyti</span>
+              <span class="ml-2 mb-1">
                 <svg
                   class="w-4 h-4 transform rotate-45 -mt-px"
                   fill="none"
@@ -120,7 +129,7 @@
               </span>
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -133,7 +142,6 @@ export default {
 </script>
 
 <script setup>
-import Card from "@/Card.vue";
 import Material from "@/Material.vue";
 import ChatCard from "@/Chat/Card.vue";
 import Emojipicker from "@/Emojipicker.vue";
@@ -143,6 +151,7 @@ import {
   useContext,
   useRoute,
   computed,
+  onBeforeUnmount,
 } from "@nuxtjs/composition-api";
 
 const route = useRoute();
@@ -157,8 +166,13 @@ const content = ref({
 const chatContainer = ref(null);
 
 const showEmojis = ref(false);
+const interval = ref(null);
 
 const getMessages = () => {
+  if (!route.value.params.room) {
+    return;
+  }
+
   $axios.get("/chat/" + route.value.params.room + "/index").then((response) => {
     room.value = response.data;
     scrollBottom();
@@ -167,8 +181,12 @@ const getMessages = () => {
 
 const writeMessage = () => {
   showEmojis.value = false;
+  if (!content.value.body) {
+    return;
+  }
+
   $axios
-    .post("/chat/" + route.value.params.room + "messages/store", {
+    .post("/chat/" + route.value.params.room + "/store", {
       content: message.value,
     })
     .then(() => {
@@ -195,6 +213,14 @@ const message = computed(() => {
 
 onMounted(() => {
   getMessages();
+
+  interval.value = setInterval(() => {
+    getMessages();
+  }, 10000);
+});
+
+onBeforeUnmount(() => {
+  clearInterval(interval.value);
 });
 
 const scrollBottom = () => {

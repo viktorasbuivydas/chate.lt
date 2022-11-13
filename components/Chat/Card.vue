@@ -18,7 +18,7 @@
 
         <button
           @click="replyTo"
-          v-if="message.user.name !== $auth.user.data.name"
+          v-if="message.user.username !== $auth.user.data.username"
         >
           <Material icon="reply" class="text-brand" />
         </button>
@@ -88,7 +88,7 @@ const typeColor = computed(() => {
 });
 
 const firstLetter = () => {
-  return props.message.user.name.charAt(0);
+  return props.message.user.username.charAt(0);
 };
 
 const time = () => {

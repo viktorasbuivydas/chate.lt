@@ -6,7 +6,7 @@ export default {
   head: {
     title: 'chate.lt',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'lt'
     },
     meta: [
       { charset: 'utf-8' },
@@ -46,6 +46,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     'simple-code-editor/nuxt',
+    '@nuxtjs/toast',
   ],
 
   axios: {
@@ -54,11 +55,13 @@ export default {
   },
 
   i18n: {
-    locales: ['en', 'lt'],
+    locales: ['lt'],
     defaultLocale: 'lt',
     vueI18n: locale
   },
-
+  toast: {
+    position: 'top-right',
+  },
   alias: {
     '@': resolve(__dirname, './components'),
     '~': resolve(__dirname, './'),
@@ -67,7 +70,8 @@ export default {
   auth: {
     baseURL: process.env.API_BASE,
     redirect: {
-      home: '/home'
+      home: '/home',
+      login: '/'
     },
     strategies: {
       local: {

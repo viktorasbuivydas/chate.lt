@@ -6,7 +6,7 @@
           <Material icon="search" />
           <span>Paieška</span>
         </SidebarMenuLink>
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="star" />
           <span>Siunčiamiausi</span>
           <span
@@ -15,18 +15,18 @@
             2
           </span>
         </SidebarMenuLink>
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="visibility" />
           <span>Žiūrimiausi</span>
         </SidebarMenuLink>
         <br />
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="feed" />
           <span>Naujausi</span>
         </SidebarMenuLink>
 
         <br />
-        <SidebarMenuLink url="/test">
+        <SidebarMenuLink url="/">
           <Material icon="folder" />
           <span>aaaaa temos</span>
         </SidebarMenuLink>

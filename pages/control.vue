@@ -1,7 +1,7 @@
 <template>
   <Card>
     <div class="flex flex-col flex-grow p-2">
-      <SidebarMenuLink
+      <ContentLink
         v-if="items"
         v-for="(item, index) in items.children"
         :key="index"
@@ -9,7 +9,7 @@
       >
         <Material :icon="item.icon" />
         <span>{{ item.name }}</span>
-      </SidebarMenuLink>
+      </ContentLink>
     </div>
   </Card>
 </template>
@@ -22,17 +22,15 @@ export default {
 
 <script setup>
 import Card from "@/Card.vue";
-import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
+import ContentLink from "@/Content/Link.vue";
 import Material from "@/Material.vue";
 import { ref, computed } from "vue";
 import menuData from "+/menu.json";
 import { useRoute } from "@nuxtjs/composition-api";
 
 const route = useRoute();
-console.log(menuData);
+
 const items = computed(() => {
   return menuData.find((item) => item.route_url === route.value.path);
 });
-
-console.log(items.value);
 </script>

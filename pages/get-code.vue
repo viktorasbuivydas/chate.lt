@@ -1,6 +1,6 @@
 <template>
   <form
-    v-on:submit.prevent
+    @submit.prevent="submit"
     class="w-full lg:w-1/2 flex justify-center bg-white dark:bg-gray-900"
   >
     <div
@@ -19,7 +19,9 @@
           <input
             id="email"
             required
+            :disabled="submitted"
             aria-required="true"
+            v-model="form.email"
             name="email"
             class="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-700 dark:focus:border-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 border-gray-300 border shadow"
             type="email"
@@ -30,24 +32,21 @@
             >Priežastis</label
           >
           <textarea
-            id="password"
             required
             aria-required="true"
-            name="password"
+            v-model="form.content"
+            :disabled="submitted || submitted"
+            name="content"
+            rows="5"
             class="px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-700 dark:focus:border-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 border-gray-300 border shadow"
           ></textarea>
         </div>
       </div>
       <div class="px-2 sm:px-6">
-        <button
-          type="submit"
-          class="focus:outline-none w-full sm:w-auto bg-blue-700 transition duration-150 ease-in-out hover:bg-blue-600 rounded text-white px-8 py-3 text-sm mt-6"
-        >
-          Siųsti prašymą
-        </button>
+        <BaseButtonsSimple :loading="loading">Siųsti prašymą</BaseButtonsSimple>
         <p class="mt-6 text-xs">
           Jau turite paskyrą?
-          <nuxt-link :to="localePath({ name: 'login' })" class="text-blue-600"
+          <nuxt-link :to="localePath({ name: 'index' })" class="text-blue-600"
             >Prisijungti</nuxt-link
           >
         </p>
@@ -57,9 +56,46 @@
 </template>
 
 <script>
+import Loader from "@/Loader.vue";
+import { useContext } from "@nuxtjs/composition-api";
+import BaseButtonsSimple from "@/Base/Buttons/Simple.vue";
+
 export default {
   layout: "auth",
+  middleware: "guest",
 };
 </script>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+const { $axios } = useContext();
+
+const loading = ref(false);
+const form = ref({
+  email: "",
+  content: "",
+});
+const submitted = ref(false);
+
+const submit = () => {
+  if (!form.value.email || !form.value.content) {
+    return;
+  }
+
+  loading.value = true;
+
+  $axios
+    .post("/requests/store", {
+      email: form.value.email,
+      content: form.value.content,
+    })
+    .then(() => {
+      form.value.email = "";
+      form.value.content = "";
+      submitted.value = true;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+</script>
