@@ -11,14 +11,12 @@
   </div>
 </template>
 <script>
-import LeftSidebar from "@/LeftSidebar.vue";
-import RightSidebar from "@/RightSidebar.vue";
-
 export default {
-  components: {
-    LeftSidebar,
-    RightSidebar,
-  },
   middleware: "auth",
 };
+</script>
+
+<script setup>
+import LeftSidebar from "@/LeftSidebar.vue";
+import RightSidebar from "@/RightSidebar.vue";
 </script>

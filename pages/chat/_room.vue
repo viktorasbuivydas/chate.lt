@@ -41,6 +41,7 @@
         <div class="absolute bottom-25 right-0">
           <Emojipicker v-if="showEmojis" @emoji_click="emojiClick" />
         </div>
+        {{ content.to }}
         <div v-if="content.to" class="flex items-center space-x-2 w-full mb-4">
           <div>
             <b>{{ content.to }}</b>
@@ -196,8 +197,7 @@ const writeMessage = () => {
 };
 
 const replyTo = (event) => {
-  console.log("event");
-  content.value.to = event.name;
+  content.value.to = event.username;
 };
 
 const removeTo = () => {

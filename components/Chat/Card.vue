@@ -9,21 +9,28 @@
       >
         {{ firstLetter() }}
       </div>
-      <div
-        class="relative flex space-x-2 items-center ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
-      >
-        <div>
-          {{ message.content }}
+      <div class="flex flex-col items-start">
+        <div class="ml-3 text-gray-500">
+          {{ message.user.username }}
         </div>
-
-        <button
-          @click="replyTo"
-          v-if="message.user.username !== $auth.user.data.username"
+        <div
+          class="relative flex space-x-2 items-center ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
         >
-          <Material icon="reply" class="text-brand" />
-        </button>
-        <div class="absolute text-xs bottom-0 left-0 -mb-5 mr-2 text-gray-500">
-          {{ time() }}
+          <div>
+            {{ message.content }}
+          </div>
+
+          <button
+            @click="replyTo"
+            v-if="message.user.username !== $auth.user.data.username"
+          >
+            <Material icon="reply" class="text-brand" />
+          </button>
+          <div
+            class="absolute text-xs bottom-0 left-0 -mb-5 mr-2 text-gray-500"
+          >
+            {{ time() }}
+          </div>
         </div>
       </div>
     </div>
@@ -35,14 +42,21 @@
       >
         {{ firstLetter() }}
       </div>
-      <div
-        class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
-      >
-        <div>
-          {{ message.content }}
+      <div class="flex flex-col items-end">
+        <div class="mr-3 text-gray-500">
+          {{ message.user.username }}
         </div>
-        <div class="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
-          {{ time() }}
+        <div
+          class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
+        >
+          <div class="break-words w-fit">
+            {{ message.content }}
+          </div>
+          <div
+            class="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500"
+          >
+            {{ time() }}
+          </div>
         </div>
       </div>
     </div>
