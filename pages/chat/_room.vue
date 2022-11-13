@@ -108,25 +108,31 @@
           <div class="ml-4">
             <button
               type="submit"
+              :disabled="loading"
               class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
             >
-              <span>Rašyti</span>
-              <span class="ml-2 mb-1">
-                <svg
-                  class="w-4 h-4 transform rotate-45 -mt-px"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                  ></path>
-                </svg>
-              </span>
+              <template v-if="loading">
+                <Loader />
+              </template>
+              <template v-else>
+                <span>Rašyti</span>
+                <span class="ml-2 mb-1">
+                  <svg
+                    class="w-4 h-4 transform rotate-45 -mt-px"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    ></path>
+                  </svg>
+                </span>
+              </template>
             </button>
           </div>
         </form>
@@ -145,6 +151,7 @@ export default {
 import Material from "@/Material.vue";
 import ChatCard from "@/Chat/Card.vue";
 import Emojipicker from "@/Emojipicker.vue";
+import Loader from "@/Loader.vue";
 import {
   ref,
   onMounted,
@@ -157,6 +164,7 @@ import {
 const route = useRoute();
 const room = ref(null);
 const { $axios, $auth } = useContext();
+const loading = ref(false);
 
 const content = ref({
   to: "",
@@ -180,10 +188,12 @@ const getMessages = () => {
 };
 
 const writeMessage = () => {
-  showEmojis.value = false;
   if (!content.value.body) {
     return;
   }
+
+  showEmojis.value = false;
+  loading.value = true;
 
   $axios
     .post("/chat/" + route.value.params.room + "/store", {
@@ -193,6 +203,9 @@ const writeMessage = () => {
       content.value.to = "";
       content.value.body = "";
       getMessages();
+    })
+    .finally(() => {
+      loading.value = false;
     });
 };
 
