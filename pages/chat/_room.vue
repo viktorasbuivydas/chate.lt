@@ -106,7 +106,6 @@
           </div>
           <div class="ml-4">
             <button
-              @click="writeMessage"
               type="submit"
               class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
             >
@@ -232,6 +231,6 @@ const scrollBottom = () => {
 };
 
 const emojiClick = (emoji) => {
-  content.value.body += emoji;
+  content.value.body += emoji + " ";
 };
 </script>

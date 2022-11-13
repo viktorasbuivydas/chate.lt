@@ -6,8 +6,8 @@
         @click="toggled = !toggled"
       >
         <div class="flex space-x-2 items-center">
-          <Material :icon="activeItem.icon" />
-          <span>{{ activeItem.name }}</span>
+          <Material :icon="activeItem?.icon" />
+          <span>{{ activeItem?.name }}</span>
         </div>
         <div>
           <Material icon="expand_more" v-if="toggled" />
@@ -19,7 +19,7 @@
           v-for="(item, index) in items"
           :key="index"
           @click="selectLink(item)"
-          v-if="activeItem.name !== item.name"
+          v-if="activeItem?.name !== item.name"
           class="w-full p-4 hover:bg-brand hover:text-white rounded-xl font-semibold space-x-2 flex items-center text-grayish"
         >
           <Material :icon="item.icon" />

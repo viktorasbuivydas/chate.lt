@@ -28,5 +28,10 @@
         "name": "Nustatymai",
         "icon": "settings",
         "route_url": "/settings"
+    },
+    {
+        "name": "Profilis",
+        "icon": "person",
+        "route_url": "/about"
     }
 ]

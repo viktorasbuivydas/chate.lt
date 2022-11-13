@@ -12,7 +12,7 @@
       <div
         class="relative flex space-x-2 items-center ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl"
       >
-        <div @click="toggleMessage" class="cursor-pointer">
+        <div>
           {{ message.content }}
         </div>
 
@@ -22,10 +22,7 @@
         >
           <Material icon="reply" class="text-brand" />
         </button>
-        <div
-          v-if="toggled"
-          class="absolute text-xs bottom-0 left-0 -mb-5 mr-2 text-gray-500"
-        >
+        <div class="absolute text-xs bottom-0 left-0 -mb-5 mr-2 text-gray-500">
           {{ time() }}
         </div>
       </div>
@@ -41,13 +38,10 @@
       <div
         class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl"
       >
-        <div @click="toggleMessage" class="cursor-pointer">
+        <div>
           {{ message.content }}
         </div>
-        <div
-          v-if="toggled"
-          class="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500"
-        >
+        <div class="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
           {{ time() }}
         </div>
       </div>
@@ -73,7 +67,6 @@ const props = defineProps({
 
 const emit = defineEmits(["replyTo"]);
 const { $auth } = useContext();
-const toggled = ref(false);
 
 const replyTo = () => {
   emit("replyTo", props.message.user);
@@ -93,9 +86,5 @@ const firstLetter = () => {
 
 const time = () => {
   return props.message.created_at;
-};
-
-const toggleMessage = () => {
-  toggled.value = !toggled.value;
 };
 </script>
