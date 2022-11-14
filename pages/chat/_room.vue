@@ -253,8 +253,6 @@ const scrollBottom = () => {
   }, 500);
 };
 
-const
-
 const emojiClick = (emoji) => {
   content.value.body += emoji + " ";
 };
