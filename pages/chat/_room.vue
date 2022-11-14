@@ -10,7 +10,9 @@
       >
         <div class="flex flex-col h-full">
           <div class="flex flex-col justify-center text-center">
-            <div class="text-gray-400">Load more</div>
+            <button @click="getMessages(currentPage++)" class="text-gray-400">
+              Load more
+            </button>
           </div>
           <div
             v-for="(group, index) in room"
@@ -85,7 +87,7 @@
               />
               <div
                 @click="showEmojis = !showEmojis"
-                class="cursor-pointer absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
+                class="hidden sm:flex cursor-pointer absolute items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
               >
                 <svg
                   class="w-6 h-6"
@@ -164,6 +166,7 @@ const route = useRoute();
 const room = ref(null);
 const { $axios, $auth } = useContext();
 const loading = ref(false);
+const currentPage = ref(1);
 
 const content = ref({
   to: "",
@@ -175,15 +178,22 @@ const chatContainer = ref(null);
 const showEmojis = ref(false);
 const interval = ref(null);
 
-const getMessages = () => {
+const getMessages = (page) => {
   if (!route.value.params.room) {
     return;
   }
 
-  $axios.get("/chat/" + route.value.params.room + "/index").then((response) => {
-    room.value = response.data;
-    scrollBottom();
-  });
+  if (page > 0) {
+    currentPage.value = page;
+  }
+
+  $axios
+    .get(
+      "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
+    )
+    .then((response) => {
+      room.value = response.data;
+    });
 };
 
 const writeMessage = () => {
@@ -224,6 +234,7 @@ const message = computed(() => {
 
 onMounted(() => {
   getMessages();
+  scrollBottom();
 
   interval.value = setInterval(() => {
     getMessages();
@@ -241,6 +252,8 @@ const scrollBottom = () => {
     scrollY.scrollTop = scrollY.scrollHeight - scrollY.clientHeight;
   }, 500);
 };
+
+const
 
 const emojiClick = (emoji) => {
   content.value.body += emoji + " ";
