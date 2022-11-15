@@ -198,6 +198,24 @@ const getMessages = (page) => {
     });
 };
 
+const loadNewMessages = () => {
+  $axios
+    .get(
+      "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
+    )
+    .then((response) => {
+      if (response.data.data)
+        if (response.data.data.length > 1) {
+          response.data.data.forEach((item) => room.value.push(item)); // push it into the items array so we can display the data
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      room.value = response.data.data;
+      scrollBottom();
+    });
+};
+
 const infiniteScroll = ($state) => {
   setTimeout(() => {
     currentPage.value++; // next page
@@ -224,7 +242,7 @@ const writeMessage = () => {
   if (!content.value.body) {
     return;
   }
-
+  currentPage.value = 1;
   showEmojis.value = false;
   loading.value = true;
 
@@ -260,9 +278,9 @@ const message = computed(() => {
 onMounted(() => {
   getMessages();
 
-  // interval.value = setInterval(() => {
-  //   getMessages();
-  // }, 10000);
+  interval.value = setInterval(() => {
+    loadNewMessages();
+  }, 10000);
 });
 
 onBeforeUnmount(() => {
