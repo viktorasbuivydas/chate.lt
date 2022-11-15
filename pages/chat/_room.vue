@@ -10,29 +10,27 @@
       >
         <div class="flex flex-col h-full">
           <div class="flex flex-col justify-center text-center">
-            <button @click="getMessages(currentPage++)" class="text-gray-400">
+            <!-- <button @click="getMessages(currentPage++)" class="text-gray-400">
               Load more
-            </button>
+            </button> -->
+            <infinite-loading
+              v-if="room && loadedFirstData"
+              spinner="bubbles"
+              @infinite="infiniteScroll"
+              direction="top"
+            ></infinite-loading>
           </div>
-          <div
-            v-for="(group, index) in room"
-            class="flex flex-col justify-center text-center"
-          >
-            <div class="text-gray-400">
-              {{ index }}
-            </div>
-            <div class="grid grid-cols-12 gap-y-2">
-              <ChatCard
-                v-for="message in group"
-                :message="message"
-                @replyTo="replyTo($event)"
-                :type="
-                  message.user.username === $auth.user.data.username
-                    ? 'user'
-                    : 'toUser'
-                "
-              />
-            </div>
+          <div class="grid grid-cols-12 gap-y-2">
+            <ChatCard
+              v-for="message in room"
+              :message="message"
+              @replyTo="replyTo($event)"
+              :type="
+                message.user.username === $auth.user.data.username
+                  ? 'user'
+                  : 'toUser'
+              "
+            />
           </div>
         </div>
       </div>
@@ -161,6 +159,7 @@ import {
   computed,
   onBeforeUnmount,
 } from "@nuxtjs/composition-api";
+import infiniteLoading from "vue-infinite-loading";
 
 const route = useRoute();
 const room = ref(null);
@@ -177,14 +176,11 @@ const chatContainer = ref(null);
 
 const showEmojis = ref(false);
 const interval = ref(null);
+const loadedFirstData = ref(false);
 
 const getMessages = (page) => {
   if (!route.value.params.room) {
     return;
-  }
-
-  if (page > 0) {
-    currentPage.value = page;
   }
 
   $axios
@@ -192,8 +188,36 @@ const getMessages = (page) => {
       "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
     )
     .then((response) => {
-      room.value = response.data;
+      room.value = response.data.data;
+      scrollBottom();
+    })
+    .finally(() => {
+      setTimeout(() => {
+        loadedFirstData.value = true;
+      }, 500);
     });
+};
+
+const infiniteScroll = ($state) => {
+  setTimeout(() => {
+    currentPage.value++; // next page
+
+    $axios
+      .get(
+        "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
+      )
+      .then((response) => {
+        if (response.data.data.length > 1) {
+          response.data.data.forEach((item) => room.value.push(item)); // push it into the items array so we can display the data
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, 500);
 };
 
 const writeMessage = () => {
@@ -215,6 +239,7 @@ const writeMessage = () => {
     })
     .finally(() => {
       loading.value = false;
+      scrollBottom();
     });
 };
 
@@ -234,11 +259,10 @@ const message = computed(() => {
 
 onMounted(() => {
   getMessages();
-  scrollBottom();
 
-  interval.value = setInterval(() => {
-    getMessages();
-  }, 10000);
+  // interval.value = setInterval(() => {
+  //   getMessages();
+  // }, 10000);
 });
 
 onBeforeUnmount(() => {
@@ -248,7 +272,9 @@ onBeforeUnmount(() => {
 const scrollBottom = () => {
   setTimeout(() => {
     var scrollY = document.getElementById("chat-container");
-
+    if (!scrollY) {
+      return;
+    }
     scrollY.scrollTop = scrollY.scrollHeight - scrollY.clientHeight;
   }, 500);
 };

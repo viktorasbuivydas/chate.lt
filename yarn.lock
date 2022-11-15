@@ -11089,6 +11089,11 @@
   "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.27.2.tgz"
   "version" "8.27.2"
 
+"vue-infinite-loading@^2.4.5":
+  "integrity" "sha512-xhq95Mxun060bRnsOoLE2Be6BR7jYwuC89kDe18+GmCLVrRA/dU0jrGb12Xu6NjmKs+iTW0AA6saSEmEW4cR7g=="
+  "resolved" "https://registry.npmjs.org/vue-infinite-loading/-/vue-infinite-loading-2.4.5.tgz"
+  "version" "2.4.5"
+
 "vue-jest@^3.0.4":
   "integrity" "sha512-PIOxFM+wsBMry26ZpfBvUQ/DGH2hvp5khDQ1n51g3bN0TwFwTy4J85XVfxTRMukqHji/GnAoGUnlZ5Ao73K62w=="
   "resolved" "https://registry.npmjs.org/vue-jest/-/vue-jest-3.0.7.tgz"
@@ -11181,7 +11186,7 @@
   "resolved" "https://registry.npmjs.org/vue-toasted/-/vue-toasted-1.1.28.tgz"
   "version" "1.1.28"
 
-"vue@*", "vue@^2.0.0", "vue@^2.6.11", "vue@^2.6.12", "vue@^2.7.10", "vue@^2.7.8", "vue@^2.x", "vue@2.x":
+"vue@*", "vue@^2.0.0", "vue@^2.6.10", "vue@^2.6.11", "vue@^2.6.12", "vue@^2.7.10", "vue@^2.7.8", "vue@^2.x", "vue@2.x":
   "integrity" "sha512-yRS44vPsCj6b5IZQHdEYqIwnay8stCnL8RsaVsm5aGtOhka00aoG+3ybaBAELDsXtNlzECe8myb2ukdzn19IOg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.7.12.tgz"
   "version" "2.7.12"
