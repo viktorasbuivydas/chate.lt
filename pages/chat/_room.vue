@@ -34,6 +34,7 @@
           </div>
         </div>
       </div>
+      <div class="absolute bottom-0 left-1/2 z-100">up</div>
 
       <div
         class="relative flex flex-col items-center rounded-xl bg-white w-full p-4"
@@ -166,6 +167,8 @@ const room = ref(null);
 const { $axios, $auth } = useContext();
 const loading = ref(false);
 const currentPage = ref(1);
+const skip = ref(0);
+const skipConst = ref(0);
 
 const content = ref({
   to: "",
@@ -178,17 +181,24 @@ const showEmojis = ref(false);
 const interval = ref(null);
 const loadedFirstData = ref(false);
 
-const getMessages = (page) => {
+const getMessages = (skipData = null) => {
   if (!route.value.params.room) {
     return;
   }
 
+  if (skipData !== null) {
+    skip.value = skipData;
+  }
+
   $axios
-    .get(
-      "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
-    )
+    .get("/chat/" + route.value.params.room + "/index?skip=" + skip.value)
     .then((response) => {
-      room.value = response.data.data;
+      const array = response.data;
+      if (room.value) {
+        room.value.concat(array);
+      } else {
+        room.value = array.data;
+      }
       scrollBottom();
     })
     .finally(() => {
@@ -196,6 +206,14 @@ const getMessages = (page) => {
         loadedFirstData.value = true;
       }, 500);
     });
+};
+
+const getSkip = async () => {
+  if (!route.value.params.room) {
+    return;
+  }
+
+  return await $axios.get("/chat/" + route.value.params.room + "/skip");
 };
 
 const loadNewMessages = () => {
@@ -218,17 +236,26 @@ const loadNewMessages = () => {
 
 const infiniteScroll = ($state) => {
   setTimeout(() => {
-    currentPage.value++; // next page
+    if (skip.value === 0) {
+      return;
+    }
+
+    if (skip.value - 20 > 0) {
+      skip.value = skip.value - 20;
+    } else {
+      skip.value = 0;
+    }
 
     $axios
-      .get(
-        "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
-      )
+      .get("/chat/" + route.value.params.room + "/index?skip=" + skip.value)
       .then((response) => {
         if (response.data.data.length > 1) {
-          response.data.data.forEach((item) => room.value.push(item)); // push it into the items array so we can display the data
+          const array = response.data.data;
+          let array2 = room.value;
+          room.value = array.concat(array2);
           $state.loaded();
-        } else {
+        }
+        if (skip.value === 0) {
           $state.complete();
         }
       })
@@ -242,9 +269,10 @@ const writeMessage = () => {
   if (!content.value.body) {
     return;
   }
-  currentPage.value = 1;
+
   showEmojis.value = false;
   loading.value = true;
+  room.value = [];
 
   $axios
     .post("/chat/" + route.value.params.room + "/store", {
@@ -253,7 +281,7 @@ const writeMessage = () => {
     .then(() => {
       content.value.to = "";
       content.value.body = "";
-      getMessages();
+      window.location.reload();
     })
     .finally(() => {
       loading.value = false;
@@ -275,12 +303,14 @@ const message = computed(() => {
     : content.value.body;
 });
 
-onMounted(() => {
-  getMessages();
+onMounted(async () => {
+  const skip = await getSkip();
+  skipConst.value = skip.data;
+  getMessages(skip.data);
 
-  interval.value = setInterval(() => {
-    loadNewMessages();
-  }, 10000);
+  // interval.value = setInterval(() => {
+  //   loadNewMessages();
+  // }, 10000);
 });
 
 onBeforeUnmount(() => {
