@@ -39,7 +39,7 @@
             <span>{{ room.name }}</span>
           </div>
           <span
-            class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full"
+            class="flex justify-center items-center ml-2 p-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full"
           >
             {{ room.messages_count }}
           </span>
