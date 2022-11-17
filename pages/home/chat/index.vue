@@ -29,7 +29,9 @@
         </div>
 
         <nuxt-link
-          :to="localePath({ name: 'chat-room', params: { room: room.id } })"
+          :to="
+            localePath({ name: 'home-chat-room', params: { room: room.id } })
+          "
           v-for="(room, index) in rooms"
           :key="index"
           class="p-4 hover:bg-gray-50 cursor-pointer flex justify-between"

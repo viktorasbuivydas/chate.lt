@@ -22,7 +22,8 @@
           </div>
           <div class="grid grid-cols-12 gap-y-2">
             <ChatCard
-              v-for="message in room"
+              v-for="(message, index) in room"
+              :key="index"
               :message="message"
               @replyTo="replyTo($event)"
               :type="

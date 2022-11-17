@@ -6,6 +6,7 @@
       :url="item.route_url"
       :active="item.route_url === currentRoute"
       class="flex flex-col"
+      v-role:any="item.roles"
     >
       <div class="flex flex-col justify-center items-center text-xs">
         <Material :icon="item.icon" />
@@ -19,7 +20,12 @@
 import { ref } from "vue";
 import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
 import Material from "@/Material.vue";
-import { computed, useRoute } from "@nuxtjs/composition-api";
+import {
+  computed,
+  useContext,
+  useRoute,
+  useStore,
+} from "@nuxtjs/composition-api";
 
 const props = defineProps({
   items: {
@@ -27,6 +33,8 @@ const props = defineProps({
     required: true,
   },
 });
+const store = useStore();
+const { $auth } = useContext();
 const route = useRoute();
 const currentRoute = computed(() => {
   return "/" + route.value.path.split("/")[1];

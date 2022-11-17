@@ -7,31 +7,37 @@
     {
         "name": "Pokalbiai",
         "icon": "chat",
-        "route_url": "/chat"
+        "route_url": "/home/chat"
     },
     {
         "name": "Forumas",
         "icon": "forum",
-        "route_url": "/forum"
+        "route_url": "/home/forum"
     },
     {
         "name": "Failai",
         "icon": "folder",
-        "route_url": "/files"
+        "route_url": "/home/files"
     },
     {
         "name": "Statistika",
         "icon": "signal_cellular_alt",
-        "route_url": "/statistic"
+        "route_url": "/home/statistic"
     },
     {
         "name": "Nustatymai",
         "icon": "settings",
-        "route_url": "/settings"
+        "route_url": "/home/settings"
+    },
+    {
+        "name": "Valdymas",
+        "icon": "admin_panel_settings",
+        "route_url": "/home/control",
+        "roles": "super admin|admin|moderator|vip"
     },
     {
         "name": "Profilis",
         "icon": "person",
-        "route_url": "/about"
+        "route_url": "/home/about"
     }
 ]

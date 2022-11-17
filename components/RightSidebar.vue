@@ -34,6 +34,7 @@
                 {{ user.user.username }}
               </div>
               <div
+                v-if="user.status === 'active'"
                 class="flex text-xs text-white bg-green-500 h-4 w-4 rounded-full leading-none"
               ></div>
             </div>

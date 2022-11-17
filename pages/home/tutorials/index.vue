@@ -24,8 +24,8 @@ export default {
 import { ref } from "vue";
 const code = ref(
   `<?php
-  echo 'test';
-  echo '444';
-  `
+    echo 'test';
+    echo '444';
+    `
 );
 </script>

@@ -12,11 +12,22 @@
 </template>
 <script>
 export default {
-  middleware: "auth",
+  middleware: ["auth"],
 };
 </script>
 
 <script setup>
 import LeftSidebar from "@/LeftSidebar.vue";
 import RightSidebar from "@/RightSidebar.vue";
+import { useAsync, useContext, useStore } from "@nuxtjs/composition-api";
+
+const store = useStore();
+const { $auth } = useContext();
+
+useAsync(() => {
+  const user = $auth.user.data;
+
+  store.dispatch("user/setUserRoles", user.roles);
+  store.dispatch("user/setUserPermissions", user.permissions);
+});
 </script>

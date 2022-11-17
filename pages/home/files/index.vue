@@ -35,6 +35,12 @@
   </Card>
 </template>
 
+<script>
+export default {
+  layout: "home",
+};
+</script>
+
 <script setup>
 import Card from "@/Card.vue";
 import { ref, computed } from "vue";
@@ -48,10 +54,4 @@ const route = useRoute();
 const items = computed(() => {
   return menuData.find((item) => item.route_url === route.path);
 });
-</script>
-
-<script>
-export default {
-  layout: "home",
-};
 </script>

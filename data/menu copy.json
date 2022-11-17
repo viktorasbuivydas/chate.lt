@@ -28,6 +28,7 @@
         "name": "Valdymas",
         "icon": "admin_panel_settings",
         "route_url": "/control",
+        "roles": "super admin|admin|moderator|vip",
         "children": [
             {
                 "name": "Topic keitimas",
