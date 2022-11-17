@@ -15,6 +15,4 @@ export default {
 
 <script setup>
 import Card from "@/Card.vue";
-
-const route = useRoute();
 </script>

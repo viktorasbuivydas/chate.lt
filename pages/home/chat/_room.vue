@@ -8,7 +8,7 @@
         id="chat-container"
         ref="chatContainer"
       >
-        <div class="flex flex-col h-full">
+        <div class="flex flex-col h-full relative">
           <div class="flex flex-col justify-center text-center">
             <!-- <button @click="getMessages(currentPage++)" class="text-gray-400">
               Load more
@@ -33,10 +33,9 @@
               "
             />
           </div>
+          <ScrollToBottom :showScroll="true" />
         </div>
       </div>
-      <div class="absolute bottom-0 left-1/2 z-100">up</div>
-
       <div
         class="relative flex flex-col items-center rounded-xl bg-white w-full p-4"
       >
@@ -162,6 +161,7 @@ import {
   onBeforeUnmount,
 } from "@nuxtjs/composition-api";
 import infiniteLoading from "vue-infinite-loading";
+import ScrollToBottom from "@/ScrollToBottom.vue";
 
 const route = useRoute();
 const room = ref(null);
@@ -238,6 +238,7 @@ const loadNewMessages = () => {
 const infiniteScroll = ($state) => {
   setTimeout(() => {
     if (skip.value === 0) {
+      $state.complete();
       return;
     }
 

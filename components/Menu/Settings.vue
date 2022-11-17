@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col text-left">
     <SidebarContentLink
-      url="/settings/password"
+      url="/home/settings/password"
       class="flex flex-col"
       icon="key"
     >

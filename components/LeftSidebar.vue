@@ -20,7 +20,6 @@
 
 <script setup>
 import { ref } from "vue";
-import Material from "@/Material.vue";
 import MobileSidebar from "@/MobileSidebar.vue";
 import Sidebar from "@/Sidebar.vue";
 import menuData from "+/menu.json";

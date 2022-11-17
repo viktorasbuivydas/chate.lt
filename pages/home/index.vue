@@ -11,6 +11,12 @@
           (Parašė: 2022m. Lapkričio 13d. - 17val. 10min.)
         </div>
       </div>
+      <div class="flex justify-center w-auto">
+        <button click="openModal" class="bg-brand text-white" @click="open">
+          open
+        </button>
+      </div>
+
       <button v-role="'super admin'">I am super admin</button>
       <div class="border-gray-100 p-2 rounded-md space-y-4">
         <div class="font-semibold text-gray-500">Naujienos</div>
@@ -26,28 +32,34 @@
         </div>
       </div>
     </div>
+    <ModalSmall ref="successModal" />
   </Card>
 </template>
 
 <script>
 export default {
   layout: "home",
+  name: "home",
 };
 </script>
 
 <script setup>
 import Card from "@/Card.vue";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useContext, useStore } from "@nuxtjs/composition-api";
-
+import ModalSmall from "@/Modal/Small.vue";
 const { $auth, app } = useContext();
 
+const successModal = ref(null);
 const store = useStore();
 
 const user = computed(() => {
   return $auth.user.data;
 });
 
+const open = () => {
+  successModal.value.open();
+};
 onMounted(() => {
   // console.log($gates.getRoles());
 });

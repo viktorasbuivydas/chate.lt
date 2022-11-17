@@ -37,7 +37,7 @@ const store = useStore();
 const { $auth } = useContext();
 const route = useRoute();
 const currentRoute = computed(() => {
-  return "/" + route.value.path.split("/")[1];
+  return "/home/" + route.value.path.split("/")[2];
 });
 
 const isMobileSidebarOpened = ref(false);

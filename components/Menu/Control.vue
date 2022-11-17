@@ -1,24 +1,28 @@
 <template>
   <div class="flex flex-col text-left">
-    <SidebarContentLink url="/control/topic" class="flex flex-col" icon="note">
+    <SidebarContentLink
+      url="/home/control/topic"
+      class="flex flex-col"
+      icon="note"
+    >
       Topic keitimas
     </SidebarContentLink>
     <SidebarContentLink
-      url="/control/topic"
+      url="/home/control/topic"
       class="flex flex-col"
       icon="how_to_vote"
     >
       Sukurti balsavimą
     </SidebarContentLink>
     <SidebarContentLink
-      url="/control/topic"
+      url="/home/control/topic"
       class="flex flex-col"
       icon="personal_injury"
     >
       Vartotojų baninimas
     </SidebarContentLink>
     <SidebarContentLink
-      url="/control/logs"
+      url="/home/control/logs"
       class="flex flex-col"
       icon="web_stories"
     >
@@ -28,21 +32,21 @@
       Viktorinos klausimai
     </SidebarContentLink>
     <SidebarContentLink
-      url="/control/tutorials"
+      url="/home/control/tutorials"
       class="flex flex-col"
       icon="school"
     >
       Pamokos
     </SidebarContentLink>
     <SidebarContentLink
-      url="/control/tutorials"
+      url="/home/control/tutorials"
       class="flex flex-col"
       icon="account_circle"
     >
       Avatarai
     </SidebarContentLink>
     <SidebarContentLink
-      url="/control/requests"
+      url="/home/control/requests"
       class="flex flex-col"
       icon="comment"
     >
