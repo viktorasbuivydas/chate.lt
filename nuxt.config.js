@@ -1,34 +1,36 @@
-import { resolve } from 'path'
-import locale from './locale'
+import { resolve } from "path";
+import locale from "./locale";
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'chate.lt',
+    title: "chate.lt",
     htmlAttrs: {
-      lang: 'lt'
+      lang: "lt",
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { name: "format-detection", content: "telephone=no" },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded' }
-    ]
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        type: "text/css",
+        href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded",
+      },
+    ],
   },
-  target: 'server',
+  target: "server",
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '~/assets/css/main.css'
-  ],
+  css: ["~/assets/css/main.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins:[
-    { src: '~/plugins/infiniteloading', ssr: false },
-    '~/plugins/vue-gates'
+  plugins: [
+    { src: "~/plugins/infiniteloading", ssr: false },
+    "~/plugins/vue-gates",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -37,74 +39,83 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
-    '@nuxtjs/tailwindcss',
-    '@nuxt/postcss8',
-    '@nuxtjs/composition-api/module',
+    "@nuxtjs/tailwindcss",
+    "@nuxt/postcss8",
+    "@nuxtjs/composition-api/module",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/i18n',
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
-    'simple-code-editor/nuxt',
-    '@nuxtjs/toast',
+    "@nuxtjs/i18n",
+    "@nuxtjs/axios",
+    "@nuxtjs/auth-next",
+    "simple-code-editor/nuxt",
+    ["nuxt-tailvue", { toast: true }],
   ],
+
+  toast: {
+    defaultProps: {
+      timeout: 1000,
+      closeOnClick: true,
+      progress: false,
+    },
+  },
 
   axios: {
     proxy: true,
-    credentials: true
+    credentials: true,
   },
 
   i18n: {
-    locales: ['lt'],
-    defaultLocale: 'lt',
-    vueI18n: locale
+    locales: ["lt"],
+    defaultLocale: "lt",
+    vueI18n: locale,
   },
   toast: {
-    position: 'top-right',
+    position: "top-right",
   },
   alias: {
-    '@': resolve(__dirname, './components'),
-    '~': resolve(__dirname, './'),
-    '+': resolve(__dirname, './data'),
+    "@": resolve(__dirname, "./components"),
+    "~": resolve(__dirname, "./"),
+    "+": resolve(__dirname, "./data"),
+    uses: resolve(__dirname, "./uses"),
   },
   auth: {
     baseURL: process.env.API_BASE,
     redirect: {
-      home: '/home',
-      login: '/'
+      home: "/home",
+      login: "/",
     },
     strategies: {
       local: {
         token: {
-          property: 'token',
+          property: "token",
           global: true,
           required: true,
-          type: 'Bearer',
-          maxAge: 86400 * 2
+          type: "Bearer",
+          maxAge: 86400 * 2,
         },
         refreshToken: {
-          property: 'refresh_token',
-          data: 'refresh_token',
-          maxAge: 60 * 60 * 24 * 30
+          property: "refresh_token",
+          data: "refresh_token",
+          maxAge: 60 * 60 * 24 * 30,
         },
         user: {
-          property: '',
+          property: "",
           // autoFetch: true
         },
         endpoints: {
-          login: { url: 'login', method: 'post' },
-          logout: { url: 'logout', method: 'post' },
-          user: { url: 'user', method: 'get' },
-          refresh: { url: '/api/auth/refresh', method: 'post' }
+          login: { url: "login", method: "post" },
+          logout: { url: "logout", method: "post" },
+          user: { url: "user", method: "get" },
+          refresh: { url: "/api/auth/refresh", method: "post" },
         },
-      }
-    }
+      },
+    },
   },
-axios: {
-  baseURL: process.env.API_BASE
-},
+  axios: {
+    baseURL: process.env.API_BASE,
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -114,5 +125,5 @@ axios: {
         autoprefixer: {},
       },
     },
-  }
-}
+  },
+};

@@ -10,7 +10,6 @@
     >
       <div class="flex flex-col justify-center items-center text-xs">
         <Material :icon="item.icon" />
-        <span>{{ item.name }}</span>
       </div>
     </SidebarMenuLink>
   </div>

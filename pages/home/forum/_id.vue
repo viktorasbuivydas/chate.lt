@@ -1,11 +1,14 @@
 <template>
   <Card class="flex flex-col sm:flex-row bg-white space-y-4">
     <template #content>
+      <div class="px-4 py-2 flex items-center">
+        <Material icon="arrow_back" />
+        <nuxt-link to="/home/forum">Atgal</nuxt-link>
+      </div>
       <div class="sm:space-y-0 w-full">
         <div class="flex flex-col space-y-2 w-full">
-          Pagrindines forumo temos
           <SidebarMenuLink
-            :url="'/home/forum/' + thread.id"
+            :url="'/home/forum/threads/' + thread.id"
             v-for="thread in threads"
           >
             <Material :icon="thread.icon" />
@@ -33,10 +36,9 @@ import useForum from "uses/useForum.js";
 
 const route = useRoute();
 const store = useStore();
-
 const { fetchThreads } = useForum();
 onMounted(() => {
-  fetchThreads(null, page.value);
+  fetchThreads(route.value.params.id, page.value);
 });
 
 const page = computed(() => {

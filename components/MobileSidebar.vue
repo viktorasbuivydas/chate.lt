@@ -45,10 +45,8 @@ const route = useRoute();
 const router = useRouter();
 const toggled = ref(true);
 
-const isMobileSidebarOpened = ref(false);
-
 const activeItem = computed(() => {
-  const currentRoute = "/" + route.value.path.split("/")[1];
+  const currentRoute = "/home/" + route.value.path.split("/")[2];
   return props.items.find((item) => item.route_url === currentRoute);
 });
 

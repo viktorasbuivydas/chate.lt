@@ -1,6 +1,9 @@
 <template>
-  <div class="hidden md:flex flex-col pt-4 px-4 w-64 bg-white flex-shrink-0">
-    <div class="flex flex-col mt-2">
+  <div
+    class="ml-2 hidden md:flex flex-col pt-4 px-4 w-64 bg-white flex-shrink-0"
+  >
+    <slot></slot>
+    <!-- <div class="flex flex-col mt-2">
       <div class="flex flex-row items-center justify-between text-xs">
         <span class="font-bold">Prisijungę</span>
         <span
@@ -41,7 +44,7 @@
           </div>
         </nuxt-link>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup>

@@ -2,7 +2,7 @@
     {
         "name": "Pagrindinis",
         "icon": "dashboard",
-        "route_url": "/home"
+        "route_url": "/home/"
     },
     {
         "name": "Pokalbiai",
@@ -39,5 +39,10 @@
         "name": "Profilis",
         "icon": "person",
         "route_url": "/home/about"
+    },
+    {
+        "name": "Prisijungę",
+        "icon": "toggle_on",
+        "route_url": "/home/online"
     }
 ]

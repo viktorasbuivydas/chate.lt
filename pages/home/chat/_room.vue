@@ -4,25 +4,96 @@
       class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-0"
     >
       <div
-        class="flex flex-col h-full overflow-x-auto mb-4"
+        class="relative flex flex-col items-center rounded-xl bg-white w-full px-4"
+      >
+        <div class="absolute top-25 right-0">
+          <Emojipicker v-if="showEmojis" @emoji_click="emojiClick" />
+        </div>
+      </div>
+      <div v-if="content.to" class="flex items-center space-x-2 w-full ml-2">
+        <div>
+          <b>{{ content.to }}</b>
+        </div>
+        <button
+          class="text-brand flex items-center rounded-md p-1"
+          @click="removeTo"
+        >
+          <Material icon="close" />
+        </button>
+      </div>
+      <form
+        @submit.prevent="sendMessage"
+        class="flex flex-col space-y-2 items-center w-full py-2"
+      >
+        <div class="w-full">
+          <div class="relative w-full">
+            <textarea
+              v-model="content.body"
+              maxlength="500"
+              rows="3"
+              class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-indigo-300 p-2"
+            ></textarea>
+            <div
+              @click="showEmojis = !showEmojis"
+              class="hidden sm:flex cursor-pointer absolute items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="w-full flex justify-end">
+          <button
+            type="submit"
+            :disabled="loading"
+            class="ml-1 flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-5 py-2 flex-shrink-0"
+          >
+            <template v-if="loading">
+              <Loader />
+            </template>
+            <template v-else>
+              <span>Rašyti</span>
+              <span class="ml-2 mb-1">
+                <svg
+                  class="w-4 h-4 transform rotate-45 -mt-px"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                  ></path>
+                </svg>
+              </span>
+            </template>
+          </button>
+        </div>
+      </form>
+      <div
+        class="flex flex-col h-full mb-4"
         id="chat-container"
         ref="chatContainer"
       >
         <div class="flex flex-col h-full relative">
-          <div class="flex flex-col justify-center text-center">
-            <!-- <button @click="getMessages(currentPage++)" class="text-gray-400">
-              Load more
-            </button> -->
-            <infinite-loading
-              v-if="room && loadedFirstData"
-              spinner="bubbles"
-              @infinite="infiniteScroll"
-              direction="top"
-            ></infinite-loading>
-          </div>
-          <div class="grid grid-cols-12 gap-y-2">
+          <div class="flex flex-col">
             <ChatCard
-              v-for="(message, index) in room"
+              v-for="(message, index) in messages"
               :key="index"
               :message="message"
               @replyTo="replyTo($event)"
@@ -33,109 +104,18 @@
               "
             />
           </div>
-          <ScrollToBottom :showScroll="true" />
-        </div>
-      </div>
-      <div
-        class="relative flex flex-col items-center rounded-xl bg-white w-full p-4"
-      >
-        <div class="absolute bottom-25 right-0">
-          <Emojipicker v-if="showEmojis" @emoji_click="emojiClick" />
-        </div>
-        <div v-if="content.to" class="flex items-center space-x-2 w-full mb-4">
-          <div>
-            <b>{{ content.to }}</b>
-          </div>
-          <button
-            class="text-brand flex items-center rounded-md p-1"
-            @click="removeTo"
+          <infinite-loading
+            v-if="messages && loadedFirstData"
+            spinner="bubbles"
+            @infinite="infiniteScroll"
           >
-            <Material icon="close" />
-          </button>
-        </div>
-        <form
-          @submit.prevent="writeMessage"
-          class="flex items-center flex-row w-full h-16"
-        >
-          <div>
-            <button
-              class="flex items-center justify-center text-gray-400 hover:text-gray-600"
-            >
-              <svg
-                class="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div class="flex-grow ml-4">
-            <div class="relative w-full">
-              <input
-                type="text"
-                v-model="content.body"
-                class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
-              />
-              <div
-                @click="showEmojis = !showEmojis"
-                class="hidden sm:flex cursor-pointer absolute items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
-              >
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </div>
+            <div slot="no-more" class="p-2">Žinučių daugiau neturime :(</div>
+            <div slot="no-results" class="p-2">
+              Nepavyksta rasti daugiau žinučių
             </div>
-          </div>
-          <div class="ml-4">
-            <button
-              type="submit"
-              :disabled="loading"
-              class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-            >
-              <template v-if="loading">
-                <Loader />
-              </template>
-              <template v-else>
-                <span>Rašyti</span>
-                <span class="ml-2 mb-1">
-                  <svg
-                    class="w-4 h-4 transform rotate-45 -mt-px"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    ></path>
-                  </svg>
-                </span>
-              </template>
-            </button>
-          </div>
-        </form>
+          </infinite-loading>
+          <ScrollToBottom :showScroll="false" />
+        </div>
       </div>
     </div>
   </div>
@@ -159,17 +139,22 @@ import {
   useRoute,
   computed,
   onBeforeUnmount,
+  useStore,
 } from "@nuxtjs/composition-api";
 import infiniteLoading from "vue-infinite-loading";
 import ScrollToBottom from "@/ScrollToBottom.vue";
+import useChat from "uses/useChat.js";
+import useScroll from "uses/useScroll.js";
 
-const route = useRoute();
-const room = ref(null);
 const { $axios, $auth } = useContext();
+const { fetchMessages, fetchNewMessages, writeMessage } = useChat();
+const { scrollToTop } = useScroll();
+const route = useRoute();
+const store = useStore();
+
+const room = ref(null);
 const loading = ref(false);
 const currentPage = ref(1);
-const skip = ref(0);
-const skipConst = ref(0);
 
 const content = ref({
   to: "",
@@ -181,83 +166,32 @@ const chatContainer = ref(null);
 const showEmojis = ref(false);
 const interval = ref(null);
 const loadedFirstData = ref(false);
+const chatId = route.value.params.room;
 
-const getMessages = (skipData = null) => {
-  if (!route.value.params.room) {
+const getMessages = () => {
+  if (!chatId) {
     return;
   }
 
-  if (skipData !== null) {
-    skip.value = skipData;
-  }
-
-  $axios
-    .get("/chat/" + route.value.params.room + "/index?skip=" + skip.value)
-    .then((response) => {
-      const array = response.data;
-      if (room.value) {
-        room.value.concat(array);
-      } else {
-        room.value = array.data;
-      }
-      scrollBottom();
-    })
-    .finally(() => {
-      setTimeout(() => {
-        loadedFirstData.value = true;
-      }, 500);
-    });
-};
-
-const getSkip = async () => {
-  if (!route.value.params.room) {
-    return;
-  }
-
-  return await $axios.get("/chat/" + route.value.params.room + "/skip");
-};
-
-const loadNewMessages = () => {
-  $axios
-    .get(
-      "/chat/" + route.value.params.room + "/index?page=" + currentPage.value
-    )
-    .then((response) => {
-      if (response.data.data)
-        if (response.data.data.length > 1) {
-          response.data.data.forEach((item) => room.value.push(item)); // push it into the items array so we can display the data
-          $state.loaded();
-        } else {
-          $state.complete();
-        }
-      room.value = response.data.data;
-      scrollBottom();
-    });
+  fetchMessages(chatId, page.value).then(() => {
+    setTimeout(() => {
+      scrollToTop("chat-container");
+      loadedFirstData.value = true;
+    }, 1000);
+  });
 };
 
 const infiniteScroll = ($state) => {
+  if (!loadedFirstData.value) {
+    return;
+  }
+
   setTimeout(() => {
-    if (skip.value === 0) {
-      $state.complete();
-      return;
-    }
-
-    if (skip.value - 20 > 0) {
-      skip.value = skip.value - 20;
-    } else {
-      skip.value = 0;
-    }
-
-    $axios
-      .get("/chat/" + route.value.params.room + "/index?skip=" + skip.value)
+    fetchMessages(chatId, page.value)
       .then((response) => {
-        if (response.data.data.length > 1) {
-          const array = response.data.data;
-          let array2 = room.value;
-          room.value = array.concat(array2);
+        if (response.data.length) {
           $state.loaded();
-        }
-        if (skip.value === 0) {
+        } else {
           $state.complete();
         }
       })
@@ -267,7 +201,7 @@ const infiniteScroll = ($state) => {
   }, 500);
 };
 
-const writeMessage = () => {
+const sendMessage = () => {
   if (!content.value.body) {
     return;
   }
@@ -276,18 +210,13 @@ const writeMessage = () => {
   loading.value = true;
   room.value = [];
 
-  $axios
-    .post("/chat/" + route.value.params.room + "/store", {
-      content: message.value,
-    })
+  writeMessage(chatId, message.value)
     .then(() => {
       content.value.to = "";
       content.value.body = "";
-      window.location.reload();
     })
     .finally(() => {
       loading.value = false;
-      scrollBottom();
     });
 };
 
@@ -306,30 +235,31 @@ const message = computed(() => {
 });
 
 onMounted(async () => {
-  const skip = await getSkip();
-  skipConst.value = skip.data;
-  getMessages(skip.data);
+  getMessages(page.value);
 
-  // interval.value = setInterval(() => {
-  //   loadNewMessages();
-  // }, 10000);
+  interval.value = setInterval(() => {
+    fetchNewMessages(chatId);
+  }, 10000);
 });
 
 onBeforeUnmount(() => {
   clearInterval(interval.value);
 });
 
-const scrollBottom = () => {
-  setTimeout(() => {
-    var scrollY = document.getElementById("chat-container");
-    if (!scrollY) {
-      return;
-    }
-    scrollY.scrollTop = scrollY.scrollHeight - scrollY.clientHeight;
-  }, 500);
-};
-
 const emojiClick = (emoji) => {
   content.value.body += emoji + " ";
 };
+
+const messages = computed(() => {
+  return store.getters["chat/messages"];
+});
+
+const page = computed(() => {
+  return store.getters["chat/page"];
+});
 </script>
+<style>
+textarea {
+  resize: none;
+}
+</style>

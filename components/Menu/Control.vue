@@ -1,59 +1,78 @@
 <template>
-  <div class="flex flex-col text-left">
+  <div class="flex flex-col space-y-2 text-left">
+    <SidebarContentLink
+      url="/home/control/requests"
+      icon="comment"
+      name="requests"
+      :current="currentPage"
+    >
+      Užklausų valdymas
+    </SidebarContentLink>
     <SidebarContentLink
       url="/home/control/topic"
-      class="flex flex-col"
       icon="note"
+      name="topic"
+      :current="currentPage"
     >
       Topic keitimas
     </SidebarContentLink>
     <SidebarContentLink
       url="/home/control/topic"
-      class="flex flex-col"
       icon="how_to_vote"
+      name="votes"
+      :current="currentPage"
     >
       Sukurti balsavimą
     </SidebarContentLink>
     <SidebarContentLink
       url="/home/control/topic"
-      class="flex flex-col"
       icon="personal_injury"
+      name="ban"
+      :current="currentPage"
     >
       Vartotojų baninimas
     </SidebarContentLink>
     <SidebarContentLink
       url="/home/control/logs"
-      class="flex flex-col"
       icon="web_stories"
+      name="logs"
+      :current="currentPage"
     >
       Logai
     </SidebarContentLink>
-    <SidebarContentLink url="/control/quiz" class="flex flex-col" icon="quiz">
+    <SidebarContentLink
+      url="/control/quiz"
+      icon="quiz"
+      name="quiz"
+      :current="currentPage"
+    >
       Viktorinos klausimai
     </SidebarContentLink>
     <SidebarContentLink
       url="/home/control/tutorials"
-      class="flex flex-col"
       icon="school"
+      name="tutorials"
+      :current="currentPage"
     >
       Pamokos
     </SidebarContentLink>
     <SidebarContentLink
       url="/home/control/tutorials"
-      class="flex flex-col"
       icon="account_circle"
+      name="avatars"
+      :current="currentPage"
     >
       Avatarai
-    </SidebarContentLink>
-    <SidebarContentLink
-      url="/home/control/requests"
-      class="flex flex-col"
-      icon="comment"
-    >
-      Užklausų valdymas
     </SidebarContentLink>
   </div>
 </template>
 <script setup>
 import SidebarContentLink from "@/Sidebar/ContentLink.vue";
+
+const props = defineProps({
+  currentPage: {
+    type: String,
+    default: "",
+  },
+});
 </script>

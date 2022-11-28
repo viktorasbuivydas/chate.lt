@@ -3,7 +3,7 @@
     <template #content>
       <div class="flex">
         <div class="grid grid-cols-3 flex-grow p-2 space-x-10">
-          <Menusettings currentPage="password" />
+          <Menusettings currentPage="topic" />
           <div class="col-span-2">pamparam</div>
         </div>
       </div>

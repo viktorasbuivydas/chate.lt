@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="url"
-    class="flex flex-row space-x-2 items-center hover:bg-gray-100 rounded-xl p-2"
+    class="flex flex-row space-x-2 items-center hover:bg-gray-100 rounded-xl py-4 px-6"
     :class="[
       active ? 'bg-brand hover:bg-brand-hover text-white' : 'text-gray-800',
     ]"

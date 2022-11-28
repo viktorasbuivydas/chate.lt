@@ -1,8 +1,13 @@
 <template>
   <Card>
-    <div class="flex flex-col flex-grow p-2">
-      <Menusettings />
-    </div>
+    <template #content>
+      <div class="flex">
+        <div class="grid grid-cols-3 flex-grow p-2 space-x-10">
+          <Menusettings />
+          <div class="col-span-2">pamparam</div>
+        </div>
+      </div>
+    </template>
   </Card>
 </template>
 

@@ -1,13 +1,36 @@
 <template>
   <Card>
-    <div
-      class="flex flex-col flex-grow border-gray-100 p-2 rounded-md space-y-4"
-    >
-      <div class="font-semibold text-gray-500">Statistika</div>
-      <div class="flex flex-col space-y-2">
-        <CardRow title="Pokalbių topai" icon="forum" type="default" />
+    <template #content>
+      <div
+        class="flex flex-col flex-grow border-gray-100 p-2 rounded-md space-y-4"
+      >
+        <div class="font-semibold text-gray-500">Statistika</div>
+        <div class="flex flex-col space-y-2">
+          <CardRowLink link="/" icon="star" type="default" title="Reputacija" />
+
+          <CardRowLink
+            link="/"
+            icon="stars"
+            type="default"
+            title="Reputacijos taškai"
+          />
+
+          <CardRowLink
+            link="/"
+            icon="chat"
+            type="default"
+            title="Pokalbių žinučių"
+          />
+
+          <CardRowLink
+            link="/"
+            icon="forum"
+            type="default"
+            title="Forumo žinučių"
+          />
+        </div>
       </div>
-    </div>
+    </template>
   </Card>
 </template>
 <script>
@@ -18,5 +41,5 @@ export default {
 
 <script setup>
 import Card from "@/Card.vue";
-import CardRow from "@/Card/Row.vue";
+import CardRowLink from "@/Card/RowLink.vue";
 </script>

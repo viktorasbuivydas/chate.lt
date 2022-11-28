@@ -1,29 +1,41 @@
 <template>
   <div>
-    <div class="flex flex-col md:flex-row space-y-6 md:space-y-0">
-      <LeftSidebar />
+    <Header />
 
-      <div class="flex h-screen flex-col md:flex-row md:flex-grow relative p-2">
+    <div class="mt-2 flex flex-col md:flex-row space-y-6 md:space-y-0">
+      <LeftSidebar />
+      <div class="flex h-screen w-full flex-col relative p-2">
         <Nuxt />
       </div>
-      <RightSidebar />
     </div>
   </div>
 </template>
 <script>
 export default {
-  middleware: ["auth"],
+  middleware: ["auth", "loadData"],
 };
 </script>
 
 <script setup>
 import LeftSidebar from "@/LeftSidebar.vue";
-import RightSidebar from "@/RightSidebar.vue";
-import { useAsync, useContext, useStore } from "@nuxtjs/composition-api";
+import Header from "@/Header.vue";
+import {
+  onMounted,
+  useAsync,
+  useContext,
+  useStore,
+} from "@nuxtjs/composition-api";
 
 const store = useStore();
-const { $auth } = useContext();
+const { $auth, $toast } = useContext();
 
+onMounted(() => {
+  // $toast.show({
+  //   type: "success",
+  //   title: "Success",
+  //   message: "This is a successful toast",
+  // });
+});
 useAsync(() => {
   const user = $auth.user.data;
 
