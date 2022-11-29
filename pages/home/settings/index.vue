@@ -1,5 +1,8 @@
 <template>
   <Card>
+    <template #header>
+      <Header />
+    </template>
     <template #content>
       <div class="flex">
         <div class="grid grid-cols-3 flex-grow p-2 space-x-10">
@@ -22,4 +25,5 @@ export default {
 <script setup>
 import Card from "@/Card.vue";
 import Menusettings from "@/Menu/Settings.vue";
+import Header from "@/Header.vue";
 </script>

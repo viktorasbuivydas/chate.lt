@@ -8,7 +8,7 @@
       <BaseToast
         v-if="hasSuccessToast"
         key="success-toast"
-        variant="bg-green-500 text-white rounded-lg px-4 py-2"
+        variant="flex justify-center items-center bg-green-500 text-white rounded-lg px-4 py-2"
         :text="successToast"
         @closeClick="closeSuccessToast"
       />
@@ -16,7 +16,7 @@
       <BaseToast
         v-if="hasErrorToast"
         key="success-toast"
-        variant="bg-red-500 text-white rounded-lg px-4 py-2"
+        variant="flex justify-center bg-red-500 text-white rounded-lg px-4 py-2"
         :text="errorToast"
         @closeClick="closeErrorToast"
       />

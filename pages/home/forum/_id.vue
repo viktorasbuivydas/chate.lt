@@ -1,10 +1,10 @@
 <template>
-  <Card class="flex flex-col sm:flex-row bg-white space-y-4">
+  <Card class="flex flex-col bg-white space-y-4">
+    <template #header>
+      <Header />
+    </template>
     <template #content>
-      <div class="px-4 py-2 flex items-center">
-        <Material icon="arrow_back" />
-        <nuxt-link to="/home/forum">Atgal</nuxt-link>
-      </div>
+      <Back to="/home/forum" />
       <div class="sm:space-y-0 w-full">
         <div class="flex flex-col space-y-2 w-full">
           <SidebarMenuLink
@@ -33,6 +33,8 @@ import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
 import Material from "@/Material.vue";
 import { useRoute, useStore } from "@nuxtjs/composition-api";
 import useForum from "uses/useForum.js";
+import Back from "@/Back.vue";
+import Header from "@/Header.vue";
 
 const route = useRoute();
 const store = useStore();

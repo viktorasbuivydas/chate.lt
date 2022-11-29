@@ -1,30 +1,102 @@
 <template>
   <div class="hidden md:flex flex-col space-y-2">
     <SidebarMenuLink
-      v-for="(item, index) in items"
-      :key="index"
-      :url="item.route_url"
-      :active="item.route_url === currentRoute"
+      url="/home/"
+      :active="isActive('/home/')"
       class="flex flex-col"
-      v-role:any="item.roles"
     >
-      <div class="flex flex-col justify-center items-center text-xs">
-        <Material :icon="item.icon" />
-      </div>
+      <template #leading>
+        <Material icon="dashboard" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/chat"
+      :active="isActive('/home/chat')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="chat" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/forum"
+      :active="isActive('/home/forum')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="forum" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/files"
+      :active="isActive('/home/files')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="folder" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/statistic"
+      :active="isActive('/home/statistic')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="signal_cellular_alt" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/settings"
+      :active="isActive('/home/settings')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="settings" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/control"
+      :active="isActive('/home/control')"
+      class="flex flex-col"
+      v-role:any="'super admin|admin|moderator|vip'"
+    >
+      <template #leading>
+        <Material icon="admin_panel_settings" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      :url="'/home/about/' + $auth.user.data.username"
+      :active="isActive('/home/about')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="person" />
+      </template>
+    </SidebarMenuLink>
+
+    <SidebarMenuLink
+      url="/home/online"
+      :active="isActive('/home/online')"
+      class="flex flex-col"
+    >
+      <template #leading>
+        <Material icon="toggle_on" />
+      </template>
     </SidebarMenuLink>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
 import Material from "@/Material.vue";
-import {
-  computed,
-  useContext,
-  useRoute,
-  useStore,
-} from "@nuxtjs/composition-api";
+import { computed, useContext, useRoute } from "@nuxtjs/composition-api";
 
 const props = defineProps({
   items: {
@@ -32,16 +104,18 @@ const props = defineProps({
     required: true,
   },
 });
-const store = useStore();
+
 const { $auth } = useContext();
 const route = useRoute();
+
 const currentRoute = computed(() => {
-  return "/home/" + route.value.path.split("/")[2];
+  const path = route.value.path.split("/")[2]
+    ? route.value.path.split("/")[2]
+    : "";
+  return "/home/" + path;
 });
 
-const isMobileSidebarOpened = ref(false);
-
-const activeItem = computed(() => {
-  return props.items.find((item) => item.route_url === currentRoute.value);
-});
+const isActive = (item) => {
+  return item === currentRoute.value;
+};
 </script>

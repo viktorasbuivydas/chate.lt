@@ -1,8 +1,13 @@
-import { useContext, useStore } from "@nuxtjs/composition-api";
+import useInbox from "uses/useInbox.js";
 
-export default function useChat() {
-  const { $axios } = useContext();
-  const store = useStore();
-
-  const InitData = (parentId, page, messages = null) => {};
-}
+export default {
+  //   const { $axios } = useContext();
+  setup() {
+    const { fetchNewMessages } = useInbox();
+    fetchNewMessages();
+    console.log("init");
+    return {
+      fetchNewMessages,
+    };
+  },
+};

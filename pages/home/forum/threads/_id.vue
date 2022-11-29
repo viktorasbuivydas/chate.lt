@@ -36,9 +36,9 @@ import useForum from "uses/useForum.js";
 
 const route = useRoute();
 const store = useStore();
-const { fetchThreads } = useForum();
+const { fetchQuestions } = useForum();
 onMounted(() => {
-  fetchThreads(route.value.params.id, page.value, true);
+  fetchQuestions(route.value.params.id, page.value, true);
 });
 
 const page = computed(() => {

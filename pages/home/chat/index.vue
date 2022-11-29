@@ -1,5 +1,8 @@
 <template>
   <Card class="flex-grow text-sm sm:text-md">
+    <template #header>
+      <Header />
+    </template>
     <template #content>
       <div class="flex flex-col w-full">
         <div class="w-full flex flex-col">
@@ -64,6 +67,7 @@ import Card from "@/Card.vue";
 import Material from "@/Material.vue";
 import { ref, onMounted, useContext } from "@nuxtjs/composition-api";
 import Skeleton from "@/Skeleton.vue";
+import Header from "@/Header.vue";
 
 const rooms = ref(null);
 const { $axios } = useContext();

@@ -5,14 +5,39 @@
     <div class="flex-grow text-sm sm:text-md mt-2">
       <div class="flex flex-col w-full">
         <div class="w-full flex flex-col">
-          <div class="w-full flex flex-col space-y-5 items-center">
+          <div
+            class="w-full flex flex-col space-y-5 items-center"
+            v-if="activeTab === 'all'"
+          >
             <div v-if="!messages" class="w-full">
               <ErrorsAlert />
             </div>
-            <div v-else>
-              <div v-for="message in messages">
-                {{ message.content }}
-              </div>
+            <div
+              v-else
+              class="w-full flex flex-col shadow p-1 space-y-2 bg-white"
+            >
+              <CardRowLink
+                v-for="message in messages"
+                :link="'/home/inbox/' + message.id"
+                :icon="message.read_at === null ? 'mail' : 'drafts'"
+                :title="message.sender"
+              />
+            </div>
+          </div>
+          <div v-else class="w-full flex flex-col space-y-5 items-center">
+            <div v-if="!messages" class="w-full">
+              <ErrorsAlert />
+            </div>
+            <div
+              v-else
+              class="w-full flex flex-col shadow p-1 space-y-2 bg-white"
+            >
+              <CardRowLink
+                v-for="message in messages"
+                :link="'/home/inbox/' + message.id"
+                :icon="message.read_at === null ? 'mail' : 'drafts'"
+                :title="message.receiver"
+              />
             </div>
           </div>
         </div>
@@ -28,7 +53,6 @@ export default {
 </script>
 
 <script setup>
-import Card from "@/Card.vue";
 import {
   ref,
   onMounted,
@@ -37,7 +61,7 @@ import {
   watch,
 } from "@nuxtjs/composition-api";
 import TabHeadline from "@/Tabs/Headline.vue";
-import CardsRow from "@/Cards/Row.vue";
+import CardRowLink from "@/Card/RowLink.vue";
 import useInbox from "uses/useInbox.js";
 import ErrorsAlert from "@/Errors/Alert.vue";
 

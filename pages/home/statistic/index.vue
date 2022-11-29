@@ -1,5 +1,8 @@
 <template>
   <Card>
+    <template #header>
+      <Header />
+    </template>
     <template #content>
       <div
         class="flex flex-col flex-grow border-gray-100 p-2 rounded-md space-y-4"
@@ -42,4 +45,5 @@ export default {
 <script setup>
 import Card from "@/Card.vue";
 import CardRowLink from "@/Card/RowLink.vue";
+import Header from "@/Header.vue";
 </script>

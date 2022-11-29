@@ -1,5 +1,8 @@
 <template>
   <Card>
+    <template #header>
+      <Header />
+    </template>
     <template #content>
       <div class="bg-blue-100 p-4 rounded-md flex flex-col text-center">
         <div>
@@ -11,7 +14,6 @@
           (Parašė: 2022m. Lapkričio 13d. - 17val. 10min.)
         </div>
       </div>
-      <Toasts />
       <div class="border-gray-100 p-2 rounded-md space-y-4">
         <div class="font-semibold text-gray-500">Naujienos</div>
         <div class="flex flex-col space-y-2">
@@ -38,11 +40,11 @@ export default {
 </script>
 
 <script setup>
+import Header from "@/Header.vue";
 import Card from "@/Card.vue";
 import { computed, onMounted, ref } from "vue";
 import { useContext, useStore } from "@nuxtjs/composition-api";
 import ModalSmall from "@/Modal/Small.vue";
-import Toasts from "@/Toasts.vue";
 
 const { $auth, app } = useContext();
 

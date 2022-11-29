@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col flex-auto h-full p-0">
+    <Header />
     <div
       class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-0"
     >
@@ -92,7 +93,7 @@
       >
         <div class="flex flex-col h-full relative">
           <div class="flex flex-col">
-            <ChatCard
+            <CardChat
               v-for="(message, index) in messages"
               :key="index"
               :message="message"
@@ -129,7 +130,7 @@ export default {
 
 <script setup>
 import Material from "@/Material.vue";
-import ChatCard from "@/Chat/Card.vue";
+import CardChat from "@/Card/Chat.vue";
 import Emojipicker from "@/Emojipicker.vue";
 import Loader from "@/Loader.vue";
 import {
@@ -145,6 +146,7 @@ import infiniteLoading from "vue-infinite-loading";
 import ScrollToBottom from "@/ScrollToBottom.vue";
 import useChat from "uses/useChat.js";
 import useScroll from "uses/useScroll.js";
+import Header from "@/Header.vue";
 
 const { $axios, $auth } = useContext();
 const { fetchMessages, fetchNewMessages, writeMessage } = useChat();

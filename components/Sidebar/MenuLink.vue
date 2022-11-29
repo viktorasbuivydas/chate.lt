@@ -6,11 +6,14 @@
       active ? 'bg-brand hover:bg-brand-hover text-white' : 'text-gray-800',
     ]"
   >
+    <div class="flex flex-col justify-center items-center text-xs">
+      <slot name="leading" />
+    </div>
+
     <slot />
     <slot name="trailing" />
   </nuxt-link>
 </template>
 <script setup>
-import Material from "@/Material.vue";
 const props = defineProps(["active", "url"]);
 </script>

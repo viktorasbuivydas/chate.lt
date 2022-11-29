@@ -3,21 +3,24 @@
   <div :class="variant">
     <slot />
     <span v-if="text">{{ text }}</span>
-    <span v-if="!hideClose" class="trailing" @click="closeClickHandler($event)">
-      <IconMaterial icon="close" class="toast-close" />
-    </span>
+    <Material
+      icon="close"
+      v-if="!hideClose"
+      @click="closeClickHandler($event)"
+    />
   </div>
   <!-- </transition> -->
 </template>
 
 <script>
 import { defineComponent } from "@nuxtjs/composition-api";
+import Material from "@/Material.vue";
 
 export default defineComponent({
   props: {
     variant: {
       type: String,
-      default: "toast-md toast-trailing-md",
+      default: "flex justify-center items-center",
     },
     text: {
       type: [String, Boolean],
@@ -27,6 +30,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    Material,
   },
   methods: {
     closeClickHandler(event) {

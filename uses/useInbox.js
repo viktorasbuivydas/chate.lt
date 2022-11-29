@@ -5,6 +5,8 @@ export default function useInbox() {
   const store = useStore();
 
   const fetchMessages = (type, page) => {
+    store.dispatch("inbox/setMessages", []);
+
     return new Promise((resolve, reject) => {
       $axios("/inbox/index?page=" + page + "&type=" + type)
         .then((response) => {
@@ -16,7 +18,35 @@ export default function useInbox() {
     });
   };
 
+  const fetchNewMessages = () => {
+    store.dispatch("inbox/setNewMessages", []);
+
+    return new Promise((resolve, reject) => {
+      $axios("/inbox/new")
+        .then((response) => {
+          store.dispatch("inbox/setNewMessages", response.data.data);
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  const getMessage = (messageId) => {
+    store.dispatch("inbox/setMessage", null);
+
+    return new Promise((resolve, reject) => {
+      $axios("/inbox/" + messageId)
+        .then((response) => {
+          store.dispatch("inbox/setMessage", response.data.data);
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
   return {
     fetchMessages,
+    fetchNewMessages,
+    getMessage,
   };
 }

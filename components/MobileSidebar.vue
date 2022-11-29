@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full" v-if="activeItem">
     <div class="flex flex-col md:hidden space-y-2 text-sm md:text-md">
       <div
         class="cursor-pointer p-4 rounded-xl font-semibold bg-brand hover:text-white flex justify-between items-center text-white"

@@ -1,9 +1,12 @@
 <template>
-  <Card class="flex flex-col sm:flex-row bg-white space-y-4">
+  <Card class="flex flex-col bg-white space-y-4">
+    <template #header>
+      <Header />
+    </template>
+    <template #headline> Pagrindines forumo temos </template>
     <template #content>
       <div class="sm:space-y-0 w-full">
         <div class="flex flex-col space-y-2 w-full">
-          Pagrindines forumo temos
           <SidebarMenuLink
             :url="'/home/forum/' + thread.id"
             v-for="thread in threads"
@@ -30,6 +33,7 @@ import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
 import Material from "@/Material.vue";
 import { useRoute, useStore } from "@nuxtjs/composition-api";
 import useForum from "uses/useForum.js";
+import Header from "@/Header.vue";
 
 const route = useRoute();
 const store = useStore();
