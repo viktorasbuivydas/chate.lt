@@ -243,7 +243,7 @@ onMounted(async () => {
 
   interval.value = setInterval(() => {
     fetchNewMessages(chatId);
-  }, 10000);
+  }, 3000);
 });
 
 onBeforeUnmount(() => {
