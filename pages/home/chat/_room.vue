@@ -133,6 +133,7 @@ import Material from "@/Material.vue";
 import CardChat from "@/Card/Chat.vue";
 import Emojipicker from "@/Emojipicker.vue";
 import Loader from "@/Loader.vue";
+import ErrorsAlert from "@/errors/Alert.vue";
 import {
   ref,
   onMounted,

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col space-y-2 text-left">
+  <div class="flex flex-col space-y-2 text-left p-2">
     <SidebarContentLink
       url="/home/settings/password"
       class="flex flex-col"
@@ -10,13 +10,13 @@
       Slaptažodžio keitimas
     </SidebarContentLink>
     <SidebarContentLink
-      url="/home/settings/topic"
+      url="/home/settings/description"
       class="flex flex-col"
       icon="assignment"
       name="topic"
       :current="currentPage"
     >
-      Topic keitimas
+      Aprašymo keitimas
     </SidebarContentLink>
   </div>
 </template>

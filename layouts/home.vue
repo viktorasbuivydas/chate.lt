@@ -2,16 +2,16 @@
   <div>
     <div class="mt-2 flex flex-col md:flex-row space-y-6 md:space-y-0">
       <LeftSidebar />
-      <div class="flex h-screen w-full flex-col relative md:p-2">
+      <div class="flex h-screen w-full flex-col relative md:px-2">
+        <Alerts />
         <Nuxt />
-        <Toasts />
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  middleware: ["auth", "loadData"],
+  middleware: ["auth"],
 };
 </script>
 
@@ -23,10 +23,9 @@ import {
   useContext,
   useStore,
 } from "@nuxtjs/composition-api";
-import Toasts from "@/Toasts.vue";
-
+import Alerts from "@/Alerts.vue";
 const store = useStore();
-const { $auth, $toast } = useContext();
+const { $auth } = useContext();
 
 onMounted(() => {});
 useAsync(() => {

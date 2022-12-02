@@ -1,7 +1,9 @@
 <template>
-  <div class="px-4 py-2 flex items-center">
-    <Material icon="arrow_back" />
-    <nuxt-link :to="to">Atgal</nuxt-link>
+  <div class="w-fit">
+    <nuxt-link :to="to" class="px-4 py-2 flex flex-shrink-0 items-center">
+      <Material icon="arrow_back" />
+      <span>Atgal</span>
+    </nuxt-link>
   </div>
 </template>
 <script setup>

@@ -6,7 +6,9 @@
     <div class="flex w-full justify-between">
       <div class="flex flex-col items-start text-sm">
         <div class="flex space-x-2">
-          <b>{{ message.user.username }}</b>
+          <nuxt-link :to="'/home/about/' + message.user.username">
+            <b>{{ message.user.username }}</b>
+          </nuxt-link>
           <div>
             {{ message.content }}
           </div>

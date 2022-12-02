@@ -1,12 +1,16 @@
 export const state = () => ({
   threads: [],
   questions: [],
+  comments: [],
+  question: null,
   page: 1,
 });
 
 export const getters = {
   threads: (state) => state.threads,
   questions: (state) => state.questions,
+  comments: (state) => state.comments,
+  question: (state) => state.question,
   page: (state) => state.page,
 };
 
@@ -17,6 +21,14 @@ export const mutations = {
 
   setQuestions(state, payload) {
     state.questions = payload;
+  },
+
+  setComments(state, payload) {
+    state.comments = payload;
+  },
+
+  setQuestion(state, payload) {
+    state.question = payload;
   },
 
   setPage(state, payload) {
@@ -35,6 +47,14 @@ export const actions = {
 
   setQuestions(context, payload) {
     context.commit("setQuestions", payload);
+  },
+
+  setComments(context, payload) {
+    context.commit("setComments", payload);
+  },
+
+  setQuestion(context, payload) {
+    context.commit("setQuestion", payload);
   },
 
   setPage(context, payload) {

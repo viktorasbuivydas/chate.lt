@@ -1,10 +1,10 @@
 import { useContext, useStore } from "@nuxtjs/composition-api";
-import useToasts from "uses/useToasts.js";
+import useAlerts from "uses/useAlerts.js";
 
 export default function useRequest() {
   const { $axios } = useContext();
   const store = useStore();
-  const { pushSuccessToast, pushErrorToast } = useToasts();
+  const { pushSuccessAlert, pushErrorAlert } = useAlerts();
 
   const fetchRequests = (type) => {
     return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ export default function useRequest() {
           resolve(response.data);
         })
         .finally(() => {
-          pushSuccessToast("Sekmingai priimta");
+          pushSuccessAlert("Sekmingai priimta");
         })
         .catch((e) => reject(e));
     });
@@ -44,6 +44,9 @@ export default function useRequest() {
         .then((response) => {
           fetchNewMessages(chatId);
           resolve(response.data);
+        })
+        .finally(() => {
+          pushSuccessAlert("Sekmingai atsaukta");
         })
         .catch((e) => reject(e));
     });

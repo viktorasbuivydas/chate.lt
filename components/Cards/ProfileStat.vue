@@ -13,7 +13,7 @@
 <script setup>
 const props = defineProps({
   number: {
-    type: Number,
+    type: Number | String,
     required: true,
   },
   title: {

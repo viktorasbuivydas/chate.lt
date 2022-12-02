@@ -12,32 +12,25 @@
   <!-- </transition> -->
 </template>
 
-<script>
-import { defineComponent } from "@nuxtjs/composition-api";
+<script setup>
 import Material from "@/Material.vue";
 
-export default defineComponent({
-  props: {
-    variant: {
-      type: String,
-      default: "flex justify-center items-center",
-    },
-    text: {
-      type: [String, Boolean],
-      default: false,
-    },
-    hideClose: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  variant: {
+    type: String,
+    default: "flex justify-center items-center",
   },
-  components: {
-    Material,
+  text: {
+    type: String,
+    required: true,
   },
-  methods: {
-    closeClickHandler(event) {
-      this.$emit("closeClick", event);
-    },
+  hideClose: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const closeClickHandler = () => {
+  // emit('close')
+};
 </script>

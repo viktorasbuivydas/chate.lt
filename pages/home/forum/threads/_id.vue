@@ -1,5 +1,8 @@
 <template>
-  <Card class="flex flex-col sm:flex-row bg-white space-y-4">
+  <Card>
+    <template #header>
+      <Header />
+    </template>
     <template #content>
       <div class="px-4 py-2 flex items-center">
         <Material icon="arrow_back" />
@@ -8,7 +11,7 @@
       <div class="sm:space-y-0 w-full">
         <div class="flex flex-col space-y-2 w-full">
           <SidebarMenuLink
-            :url="'/home/forum/posts/' + question.id"
+            :url="'/home/forum/questions/' + question.id"
             v-for="question in questions"
           >
             <Material :icon="question.icon" />
@@ -16,7 +19,10 @@
             <span
               class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full"
             >
-              {{ question }}
+              <span v-if="question.children_count">
+                {{ question.children_count }}
+              </span>
+              <span v-else> 0 </span>
             </span>
           </SidebarMenuLink>
         </div>
@@ -31,6 +37,7 @@ import { ref, computed, onMounted } from "vue";
 import menuData from "+/menu.json";
 import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
 import Material from "@/Material.vue";
+import Header from "@/Header.vue";
 import { useRoute, useStore } from "@nuxtjs/composition-api";
 import useForum from "uses/useForum.js";
 
@@ -38,15 +45,15 @@ const route = useRoute();
 const store = useStore();
 const { fetchQuestions } = useForum();
 onMounted(() => {
-  fetchQuestions(route.value.params.id, page.value, true);
+  fetchQuestions(route.value.params.id);
 });
 
 const page = computed(() => {
   return store.getters["forum/page"];
 });
 
-const messages = computed(() => {
-  return store.getters["forum/messages"];
+const questions = computed(() => {
+  return store.getters["forum/questions"];
 });
 </script>
 

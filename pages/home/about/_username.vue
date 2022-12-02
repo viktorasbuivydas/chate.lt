@@ -21,7 +21,7 @@
           />
         </div>
       </div>
-      <div class="px-5 xl:px-10 pb-10">
+      <div class="px-5 pb-10">
         <div
           class="flex justify-center items-center space-x-2 w-full pt-16 xl:pt-5"
         >
@@ -36,12 +36,10 @@
             <Material icon="thumb_down" />
           </button>
         </div>
-        <div
-          class="pt-3 xl:pt-5 flex flex-col xl:flex-row items-start xl:items-center justify-between"
-        >
+        <div class="pt-3 xl:pt-5 flex flex-col items-center justify-between">
           <div class="xl:pr-16 w-full xl:w-2/3">
             <div
-              class="text-center xl:text-left mb-3 xl:mb-0 flex flex-col xl:flex-row items-center justify-between xl:justify-start"
+              class="text-center mb-3 xl:mb-0 flex flex-col xl:flex-row items-center justify-between xl:justify-start"
             >
               <a
                 tabindex="0"
@@ -53,13 +51,22 @@
                   {{ user.username }}
                 </h2></a
               >
+              <p v-if="user.roles && user.roles.length > 0">
+                <span
+                  class="focus:outline-none text-sm bg-blue-500 dark:bg-blue-600 text-white px-5 py-1 font-normal rounded-full"
+                  v-for="role in user.roles"
+                >
+                  {{ role }}
+                </span>
+              </p>
               <p
-                tabindex="0"
                 class="focus:outline-none text-sm bg-blue-500 dark:bg-blue-600 text-white px-5 py-1 font-normal rounded-full"
+                v-else
               >
-                Savininkas
+                Narys
               </p>
             </div>
+
             <!-- <p
               tabindex="0"
               class="focus:outline-none text-center xl:text-left mt-2 text-sm tracking-normal text-gray-600 dark:text-gray-400 leading-5"
@@ -68,14 +75,30 @@
             </p> -->
           </div>
           <div
-            class="xl:px-10 xl:border-l xl:border-r w-full py-5 flex flex-wrap items-start justify-center xl:w-1/3"
+            class="xl:px-10 w-full py-5 flex flex-wrap items-start justify-center"
           >
-            <ProfileStat number="0" title="Forume žinučių" />
-            <ProfileStat number="0" title="Pokalbiuose žinučių" />
-            <ProfileStat number="0" title="Forume temų" />
-            <ProfileStat number="0" title="Reputacijos taškų" />
+            <ProfileStat
+              :number="user.forum_message_count"
+              title="Forume žinučių"
+            />
+            <ProfileStat
+              :number="user.chat_message_count"
+              title="Pokalbiuose žinučių"
+            />
+            <ProfileStat
+              :number="user.forum_thread_count"
+              title="Forume temų"
+            />
+            <ProfileStat
+              :number="user.reputation_points"
+              title="Reputacijos taškų"
+            />
+            <ProfileStat
+              :number="user.inbox_sent_message_count"
+              title="Asmeninių žinučių"
+            />
           </div>
-          <div>
+          <!-- <div>
             <div class="text-2xl font-medium tracking-normal mb-2">
               Projektai:
             </div>
@@ -87,8 +110,9 @@
                 <a href="" class="text-brand">http://test.com</a>
               </li>
             </ul>
-          </div>
-          <div class="w-full">
+          </div> -->
+
+          <!-- <div class="w-full">
             <div class="text-2xl font-medium tracking-normal mt-4 mb-2">
               Atsiliepimai (1)
             </div>
@@ -115,10 +139,20 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
+        </div>
+        <div
+          class="text-center mb-3 xl:mb-0 flex flex-col xl:flex-row items-center justify-between xl:justify-start"
+        >
+          <BaseButtonsSimpleLink
+            :to="'/home/inbox/create/' + user.username"
+            v-if="loggedInUser.username !== user.username"
+            >Rašyti žinutę</BaseButtonsSimpleLink
+          >
         </div>
       </div>
     </div>
+
     <!-- Card code block end -->
     <!-- <div class="flex flex-col flex-grow p-2" v-if="user">
         <div>
@@ -143,14 +177,14 @@ export default {
 
 <script setup>
 import { onMounted, useContext, useRoute } from "@nuxtjs/composition-api";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import ProfileStat from "@/Cards/ProfileStat.vue";
 import Material from "@/Material.vue";
 import Header from "@/Header.vue";
-
+import BaseButtonsSimpleLink from "@/Base/Buttons/SimpleLink.vue";
 const route = useRoute();
 const user = ref(null);
-const { $axios, error } = useContext();
+const { $axios, error, $auth } = useContext();
 
 onMounted(() => {
   getUserByUsername();
@@ -166,4 +200,8 @@ const getUserByUsername = () => {
       error({ statusCode: 404, message: "Post not found" });
     });
 };
+
+const loggedInUser = computed(() => {
+  return $auth.user.data;
+});
 </script>

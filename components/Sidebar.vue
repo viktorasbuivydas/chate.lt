@@ -51,7 +51,7 @@
     </SidebarMenuLink>
 
     <SidebarMenuLink
-      url="/home/settings"
+      url="/home/settings/password"
       :active="isActive('/home/settings')"
       class="flex flex-col"
     >

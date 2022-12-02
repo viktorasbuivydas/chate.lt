@@ -17,14 +17,39 @@ export default function useChat() {
     });
   };
 
-  const fetchQuestions = (threadId, page, messages = null) => {
+  const fetchQuestions = (threadId) => {
     return new Promise((resolve, reject) => {
-      const parent = parentId ? "&parent_id=" + parentId : "";
-      const loadMessages = messages ? "&messages=true" : "";
       $axios
-        .get("/threads/index?page=" + page + parent + loadMessages)
+        .get("/questions/thread/" + threadId)
         .then((response) => {
-          store.dispatch("forum/setThreads", response.data.data);
+          console.log(response.data);
+          store.dispatch("forum/setQuestions", response.data.data);
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  const fetchQuestion = (questionId) => {
+    return new Promise((resolve, reject) => {
+      $axios
+        .get("/questions/" + questionId)
+        .then((response) => {
+          console.log(response.data);
+          store.dispatch("forum/setQuestion", response.data.data);
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  const fetchQuestionComments = (questionId) => {
+    return new Promise((resolve, reject) => {
+      $axios
+        .get("/questions/comments/" + questionId)
+        .then((response) => {
+          console.log(response.data);
+          store.dispatch("forum/setComments", response.data.data);
           resolve(response.data);
         })
         .catch((e) => reject(e));
@@ -33,5 +58,8 @@ export default function useChat() {
 
   return {
     fetchThreads,
+    fetchQuestions,
+    fetchQuestion,
+    fetchQuestionComments,
   };
 }

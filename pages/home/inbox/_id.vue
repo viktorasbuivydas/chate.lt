@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex flex-col">
-      <Back to="/home/inbox" />
+      <Back :to="'/home/inbox?active_tab=' + activeTab" />
 
       <div class="w-full flex flex-col space-y-5 items-center">
         <div v-if="!message" class="w-full">
@@ -28,8 +28,9 @@
                   <nuxt-link
                     :to="'/home/about/' + message.sender"
                     class="focus:outline-none text-sm font-bold leading-4 text-gray-800 dark:text-gray-100"
-                    >{{ message.sender }}</nuxt-link
+                    >{{ sender }}</nuxt-link
                   >
+                  <div class="text-sm">{{ message.created_at }}</div>
                 </div>
               </div>
             </div>
@@ -49,27 +50,7 @@
           </div>
 
           <div class="w-full rounded dark:bg-gray-800">
-            <form @submit.prevent="sendMessage" class="flex flex-col w-full">
-              <div class="flex flex-col space-y-2 w-full mb-4 lg:mb-0 mr-10">
-                <div>Atsakymas</div>
-                <div class="w-full rounded-md">
-                  <textarea
-                    rows="5"
-                    v-model="form.content"
-                    class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-blue-300 p-2"
-                  >
-                  </textarea>
-                </div>
-              </div>
-
-              <div class="flex items-end justify-end mt-4">
-                <button
-                  class="focus:opacity-90 focus:ring-offset-2 focus:ring-2 focus:ring-blue-700 text-xs font-medium leading-3 text-white py-3 px-4 rounded bg-blue-500 focus:outline-none hover:opacity-90"
-                >
-                  Siųsti
-                </button>
-              </div>
-            </form>
+            <SectionsInboxWriteMessage :toUsername="sender" />
           </div>
         </div>
       </div>
@@ -95,33 +76,33 @@ import {
 import useInbox from "uses/useInbox.js";
 import ErrorsAlert from "@/Errors/Alert.vue";
 import Back from "@/Back.vue";
-import useToasts from "uses/useToasts.js";
+import SectionsInboxWriteMessage from "@/Sections/Inbox/WriteMessage.vue";
 
 const { getMessage } = useInbox();
-const { $axios } = useContext();
+const { $auth } = useContext();
 
 const store = useStore();
 const route = useRoute();
-const { pushSuccessToast } = useToasts();
-
-const form = ref({
-  username: "",
-  content: "",
-});
 
 onMounted(() => {
   getMessage(route.value.params.id);
+});
+
+const activeTab = computed(() => {
+  return store.getters["user/tab"];
 });
 
 const message = computed(() => {
   return store.getters["inbox/message"];
 });
 
-const sendMessage = () => {
-  form.value.username = message.value.sender;
-  $axios.post("/inbox/store", form.value).then(() => {
-    form.value.content = "";
-    pushSuccessToast("Žinutė sėkmingai išsiųsta");
-  });
-};
+const sender = computed(() => {
+  return message.value.receiver === username.value
+    ? message.value.sender
+    : message.value.receiver;
+});
+
+const username = computed(() => {
+  return $auth.user.data.username;
+});
 </script>

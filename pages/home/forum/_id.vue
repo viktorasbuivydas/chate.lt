@@ -1,5 +1,5 @@
 <template>
-  <Card class="flex flex-col bg-white space-y-4">
+  <Card class="flex flex-col space-y-4">
     <template #header>
       <Header />
     </template>

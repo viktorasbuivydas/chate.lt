@@ -1,9 +1,11 @@
 <template>
   <Card class="flex flex-col">
+    <template #header>
+      <Header />
+    </template>
+    <template #headline> Prisijungusių vartotojų sąrašas </template>
     <template #content>
-      <div
-        class="ml-2 hidden md:flex flex-col pt-4 px-4 w-full bg-white flex-shrink-0"
-      >
+      <div class="ml-2 flex flex-col pt-4 px-4 w-full bg-white flex-shrink-0">
         <div class="flex flex-col mt-2">
           <div class="flex flex-row items-center justify-between text-xs">
             <span class="font-bold">Prisijungę</span>
@@ -13,12 +15,14 @@
               >{{ users.length }}</span
             >
           </div>
-          <div class="grid grid-cols-4 space-y-1 mt-4 -mx-2 overflow-y-auto">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-4 space-y-1 mt-4 -mx-2 overflow-y-auto"
+          >
             <nuxt-link
               v-for="user in users"
               :to="
                 localePath({
-                  name: 'about-username',
+                  name: 'home-about-username',
                   params: { username: user.user.username },
                 })
               "
@@ -62,6 +66,7 @@ export default {
 import Card from "@/Card.vue";
 import { useContext, ref, onMounted } from "@nuxtjs/composition-api";
 import Material from "@/Material.vue";
+import Header from "@/Header.vue";
 
 const { $axios } = useContext();
 const users = ref(null);

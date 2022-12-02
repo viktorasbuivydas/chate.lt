@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="space-y-2">
+    <Header />
     <TabHeadline title="Žinutės" :tabs="tabs" />
 
     <div class="flex-grow text-sm sm:text-md mt-2">
@@ -20,6 +21,7 @@
                 v-for="message in messages"
                 :link="'/home/inbox/' + message.id"
                 :icon="message.read_at === null ? 'mail' : 'drafts'"
+                :active="message.read_at === null"
                 :title="message.sender"
               />
             </div>
@@ -36,6 +38,7 @@
                 v-for="message in messages"
                 :link="'/home/inbox/' + message.id"
                 :icon="message.read_at === null ? 'mail' : 'drafts'"
+                :active="message.read_at === null"
                 :title="message.receiver"
               />
             </div>
@@ -59,14 +62,17 @@ import {
   useStore,
   computed,
   watch,
+  useRoute,
 } from "@nuxtjs/composition-api";
 import TabHeadline from "@/Tabs/Headline.vue";
 import CardRowLink from "@/Card/RowLink.vue";
 import useInbox from "uses/useInbox.js";
 import ErrorsAlert from "@/Errors/Alert.vue";
+import Header from "@/Header.vue";
 
 const { fetchMessages } = useInbox();
 const store = useStore();
+const route = useRoute();
 
 const tabs = ref([
   {
@@ -80,6 +86,10 @@ const tabs = ref([
 ]);
 
 onMounted(() => {
+  if (route.value.query?.active_tab === "sent") {
+    store.dispatch("user/setTab", "sent");
+  }
+
   fetchMessages(activeTab.value, page.value);
 });
 

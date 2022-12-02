@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-3 gap-x-10">
+  <div class="grid grid-cols-3 gap-x-10 w-full">
     <Card class="flex flex-col">
       <template #content>
         <MenuControl currentPage="topic" />

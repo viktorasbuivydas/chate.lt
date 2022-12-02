@@ -1,28 +1,30 @@
 <template>
-  <Card class="flex flex-col bg-white space-y-4">
-    <template #header>
+  <div>
+    <div>
       <Header />
-    </template>
-    <template #headline> Pagrindines forumo temos </template>
-    <template #content>
-      <div class="sm:space-y-0 w-full">
-        <div class="flex flex-col space-y-2 w-full">
-          <SidebarMenuLink
-            :url="'/home/forum/' + thread.id"
-            v-for="thread in threads"
-          >
-            <Material :icon="thread.icon" />
-            <span>{{ thread.name }}</span>
-            <span
-              class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full"
+    </div>
+    <Card class="flex flex-col space-y-4">
+      <template #headline> Pagrindines forumo temos </template>
+      <template #content>
+        <div class="sm:space-y-0 w-full">
+          <div class="flex flex-col space-y-2 w-full">
+            <SidebarMenuLink
+              :url="'/home/forum/' + thread.id"
+              v-for="thread in threads"
             >
-              {{ thread.children_count }}
-            </span>
-          </SidebarMenuLink>
+              <Material :icon="thread.icon" />
+              <span>{{ thread.name }}</span>
+              <span
+                class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full"
+              >
+                {{ thread.children_count }}
+              </span>
+            </SidebarMenuLink>
+          </div>
         </div>
-      </div>
-    </template>
-  </Card>
+      </template>
+    </Card>
+  </div>
 </template>
 
 <script setup>
