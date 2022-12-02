@@ -10,9 +10,11 @@ export default function useChat() {
         .get("/chat/" + chatId + "/index?page=" + page)
         .then((response) => {
           store.dispatch("chat/addMessages", response.data.data);
+          if (response.data.data.length > 0) {
+            store.dispatch("chat/increasePage");
+          }
           resolve(response.data);
         })
-        .finally(() => store.dispatch("chat/increasePage"))
         .catch((e) => reject(e));
     });
   };
@@ -45,9 +47,16 @@ export default function useChat() {
     });
   };
 
+  const resetChat = () => {
+    store.dispatch("chat/resetMessages");
+    store.dispatch("chat/resetPage", 1);
+    store.dispatch("chat/resetLastMessageId");
+  };
+
   return {
     fetchMessages,
     fetchNewMessages,
     writeMessage,
+    resetChat,
   };
 }
