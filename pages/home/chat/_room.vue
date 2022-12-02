@@ -238,9 +238,8 @@ const message = computed(() => {
 });
 
 onMounted(async () => {
-  resetChat().then(() => {
-    getMessages(page.value);
-  });
+  resetChat();
+  getMessages(page.value);
 
   interval.value = setInterval(() => {
     fetchNewMessages(chatId);

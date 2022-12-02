@@ -36,12 +36,15 @@ export const mutations = {
     } else {
       messagesList = payload;
     }
-
-    // state.setLastMessageId = payload;
+    state.setLastMessageId = payload;
   },
 
   unsetMessages(state, payload) {
     state.messages = [];
+  },
+
+  unsetLastMessageId(state, payload) {
+    state.lastMessageId = 0;
   },
 
   pinMessage(state, payload) {
@@ -72,7 +75,7 @@ export const actions = {
 
   pinMessage(context, payload) {
     context.commit("pinMessage", payload);
-    dispatch("getMessages");
+    // dispatch("getMessages");
   },
 
   setPage(context, payload) {
@@ -91,8 +94,12 @@ export const actions = {
     context.commit("unsetMessages");
   },
 
+  resetLastMessageId(context, payload) {
+    context.commit("unsetLastMessageId");
+  },
+
   resetPage(context) {
-    context.commit("setMessages", 1);
+    context.commit("setPage", 1);
   },
 
   addMessages(context, payload) {
