@@ -150,7 +150,7 @@ import useScroll from "uses/useScroll.js";
 import Header from "@/Header.vue";
 
 const { $axios, $auth } = useContext();
-const { fetchMessages, fetchNewMessages, writeMessage } = useChat();
+const { fetchMessages, fetchNewMessages, writeMessage, resetChat } = useChat();
 const { scrollToTop } = useScroll();
 const route = useRoute();
 const store = useStore();
@@ -238,7 +238,9 @@ const message = computed(() => {
 });
 
 onMounted(async () => {
-  getMessages(page.value);
+  resetChat().then(() => {
+    getMessages(page.value);
+  });
 
   interval.value = setInterval(() => {
     fetchNewMessages(chatId);

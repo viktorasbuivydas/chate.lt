@@ -45,9 +45,17 @@ export default function useChat() {
     });
   };
 
+  const resetChat = () => {
+    return new Promise((resolve, reject) => {
+      store.dispatch("chat/resetMessages", []);
+      store.dispatch("chat/resetPage", 1);
+    });
+  };
+
   return {
     fetchMessages,
     fetchNewMessages,
     writeMessage,
+    resetChat,
   };
 }
