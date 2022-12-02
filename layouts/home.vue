@@ -6,6 +6,7 @@
         <Alerts />
         <Nuxt />
       </div>
+      .
     </div>
   </div>
 </template>
