@@ -77,6 +77,7 @@
           <div
             class="xl:px-10 w-full py-5 flex flex-wrap items-start justify-center"
           >
+            a
             <ProfileStat
               :number="user.forum_message_count"
               title="Forume žinučių"
