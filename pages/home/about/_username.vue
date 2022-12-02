@@ -84,7 +84,7 @@
             <ProfileStat
               :number="user.chat_message_count"
               title="Pokalbiuose žinučių"
-            />a
+            />
             <ProfileStat
               :number="user.forum_thread_count"
               title="Forume temų"
