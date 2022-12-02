@@ -50,16 +50,7 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
     "simple-code-editor/nuxt",
-    ["nuxt-tailvue", { toast: true }],
   ],
-
-  toast: {
-    defaultProps: {
-      timeout: 1000,
-      closeOnClick: true,
-      progress: false,
-    },
-  },
 
   axios: {
     proxy: true,
@@ -70,9 +61,6 @@ export default {
     locales: ["lt"],
     defaultLocale: "lt",
     vueI18n: locale,
-  },
-  toast: {
-    position: "top-right",
   },
   alias: {
     "@": resolve(__dirname, "./components"),

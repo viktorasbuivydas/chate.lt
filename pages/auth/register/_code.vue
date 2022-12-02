@@ -136,7 +136,7 @@ import Loader from "@/Loader.vue";
 
 const errors = ref({});
 
-const { $axios, $toast, $auth } = useContext();
+const { $axios, $auth } = useContext();
 const router = useRouter();
 const route = useRoute();
 const loading = ref(false);
@@ -156,7 +156,7 @@ const login = () => {
       ...form.value,
     })
     .then(() => {
-      $toast.success("Sėkmingai užsiregistravote", { duration: 3000 });
+      // $toast.success("Sėkmingai užsiregistravote", { duration: 3000 });
       $auth
         .loginWith("local", {
           data: form.value,
