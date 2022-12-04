@@ -4,7 +4,6 @@ window.Pusher = require("pusher-js");
 
 export default (_context, inject) => {
   if (_context.app.$auth?.strategy) {
-    console.log(_context.$config.pusher);
     const echo = new Echo({
       broadcaster: "pusher",
       key: _context.$config.pusher.key,
