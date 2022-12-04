@@ -13,6 +13,12 @@
 <script>
 export default {
   middleware: ["auth"],
+  mounted() {
+    this.$echo.channel("posts").listen("PostCreated", (e) => {
+      console.log(e);
+      console.log("aaa");
+    });
+  },
 };
 </script>
 

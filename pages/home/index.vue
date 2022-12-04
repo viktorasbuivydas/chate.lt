@@ -48,6 +48,9 @@ import { useContext, useStore } from "@nuxtjs/composition-api";
 import ModalSmall from "@/Modal/Small.vue";
 
 const { $auth, app } = useContext();
+// $echo.channel("posts").listen("PostCreated", (e) => {
+//   console.log(e);
+// });
 
 const successModal = ref(null);
 const store = useStore();

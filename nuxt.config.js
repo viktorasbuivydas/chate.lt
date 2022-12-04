@@ -31,6 +31,7 @@ export default {
   plugins: [
     { src: "~/plugins/infiniteloading", ssr: false },
     "~/plugins/vue-gates",
+    { src: "./plugins/echo", mode: "client" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,6 +53,14 @@ export default {
     "simple-code-editor/nuxt",
   ],
 
+  publicRuntimeConfig: {
+    pusher: {
+      authEndpoint: process.env.PUSHER_AUTH_ENDPOINT,
+      debug: process.env.PUSHER_DEBUG,
+      key: process.env.PUSHER_APP_KEY,
+    },
+  },
+
   axios: {
     proxy: true,
     credentials: true,
@@ -70,6 +79,7 @@ export default {
   },
   auth: {
     baseURL: process.env.API_BASE,
+    plugins: [{ src: "~/plugins/echo.js", ssr: false }],
     redirect: {
       home: "/home",
       login: "/",
