@@ -12,7 +12,6 @@ export default function useChat() {
           if (!loadMore) {
             store.dispatch("chat/setMessages", response.data.data);
           } else {
-            console.log("more");
             store.dispatch("chat/addNewMessages", response.data.data);
           }
           resolve(response.data);
@@ -37,7 +36,6 @@ export default function useChat() {
   const resetChat = () => {
     store.dispatch("chat/resetMessages");
     store.dispatch("chat/resetPage", 1);
-    store.dispatch("chat/resetLastMessageId");
   };
 
   return {

@@ -150,7 +150,7 @@ import useScroll from "uses/useScroll.js";
 import Header from "@/Header.vue";
 
 const { $axios, $auth, $echo } = useContext();
-const { fetchMessages, writeMessage } = useChat();
+const { fetchMessages, writeMessage, resetChat } = useChat();
 const { scrollToTop } = useScroll();
 const route = useRoute();
 const store = useStore();
