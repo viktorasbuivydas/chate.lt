@@ -13,7 +13,7 @@ export default (_context, inject) => {
       forceTLS: !_context.$config.pusher.debug,
       disableStats: true,
       enabledTransports: ["ws", "wss"],
-      authEndpoint: "http://localhost:8000/broadcasting/auth",
+      authEndpoint: _context.$config.pusher.authEndpoint,
       authModule: true,
       auth: {
         headers: {
