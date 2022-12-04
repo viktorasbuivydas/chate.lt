@@ -50,7 +50,7 @@ export const actions = {
 
   pinMessage(context, payload) {
     context.commit("pinMessage", payload);
-    dispatch("getMessages");
+    // dispatch("getMessages");
   },
 
   setPage(context, payload) {
@@ -61,7 +61,19 @@ export const actions = {
     context.commit("setMessages", payload);
   },
 
-  increasePage(context) {
-    context.commit("increasePage");
+  increasePage(context, payload) {
+    context.commit("increasePage", payload);
+  },
+
+  resetMessages(context, payload) {
+    context.commit("unsetMessages");
+  },
+
+  resetLastMessageId(context, payload) {
+    context.commit("unsetLastMessageId");
+  },
+
+  resetPage(context) {
+    context.commit("setPage", 1);
   },
 };

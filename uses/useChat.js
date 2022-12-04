@@ -11,14 +11,12 @@ export default function useChat() {
         .then((response) => {
           if (!loadMore) {
             store.dispatch("chat/setMessages", response.data.data);
-            console.log("a");
           } else {
             console.log("more");
             store.dispatch("chat/addNewMessages", response.data.data);
           }
           resolve(response.data);
         })
-        .finally(() => store.dispatch("chat/increasePage"))
         .catch((e) => reject(e));
     });
   };
@@ -36,8 +34,15 @@ export default function useChat() {
     });
   };
 
+  const resetChat = () => {
+    store.dispatch("chat/resetMessages");
+    store.dispatch("chat/resetPage", 1);
+    store.dispatch("chat/resetLastMessageId");
+  };
+
   return {
     fetchMessages,
     writeMessage,
+    resetChat,
   };
 }

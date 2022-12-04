@@ -11,7 +11,7 @@
           alt="mountains cover"
         />
         <div
-          class="inset-0 m-auto w-24 h-24 absolute bottom-0 -mb-12 xl:ml-10 rounded border-2 shadow border-white"
+          class="inset-0 m-auto w-24 h-24 absolute bottom-0 -mb-12 rounded border-2 shadow border-white"
         >
           <img
             tabindex="0"
@@ -22,9 +22,7 @@
         </div>
       </div>
       <div class="px-5 pb-10">
-        <div
-          class="flex justify-center items-center space-x-2 w-full pt-16 xl:pt-5"
-        >
+        <div class="flex justify-center items-center space-x-2 w-full pt-16">
           <div>
             Reputacija:
             <span class="font-semibold">0</span>
@@ -36,18 +34,16 @@
             <Material icon="thumb_down" />
           </button>
         </div>
-        <div class="pt-3 xl:pt-5 flex flex-col items-center justify-between">
-          <div class="xl:pr-16 w-full xl:w-2/3">
+        <div class="pt-3 flex flex-col items-center justify-between">
+          <div class="w-full">
             <div
-              class="text-center mb-3 xl:mb-0 flex flex-col xl:flex-row items-center justify-between xl:justify-start"
+              class="text-center mb-3 flex flex-col items-center justify-between"
             >
               <a
                 tabindex="0"
                 class="text-gray-800 dark:text-gray-100 focus:outline-none"
               >
-                <h2
-                  class="mb-3 xl:mb-0 xl:mr-4 text-2xl font-medium tracking-normal"
-                >
+                <h2 class="mb-3 text-2xl font-medium tracking-normal">
                   {{ user.username }}
                 </h2></a
               >
@@ -74,9 +70,7 @@
               Mano aprasymas blablablabla
             </p> -->
           </div>
-          <div
-            class="xl:px-10 w-full py-5 flex flex-wrap items-start justify-center"
-          >
+          <div class="w-full py-5 flex flex-wrap items-start justify-center">
             <ProfileStat
               :number="user.forum_message_count"
               title="Forume žinučių"
@@ -84,7 +78,7 @@
             <ProfileStat
               :number="user.chat_message_count"
               title="Pokalbiuose žinučių"
-            />a
+            />
             <ProfileStat
               :number="user.forum_thread_count"
               title="Forume temų"
@@ -142,7 +136,7 @@
           </div> -->
         </div>
         <div
-          class="text-center mb-3 xl:mb-0 flex flex-col xl:flex-row items-center justify-between xl:justify-start"
+          class="text-center mb-3 flex flex-col items-center justify-between"
         >
           <BaseButtonsSimpleLink
             :to="'/home/inbox/create/' + user.username"
