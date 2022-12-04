@@ -6,8 +6,8 @@
     <div class="flex w-full justify-between">
       <div class="flex flex-col items-start text-sm">
         <div class="flex space-x-2">
-          <nuxt-link :to="'/home/about/' + message.user.username">
-            <b>{{ message.user.username }}</b>
+          <nuxt-link :to="'/home/about/' + message.username">
+            <b>{{ message.username }}</b>
           </nuxt-link>
           <div>
             {{ message.content }}
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <button @click="replyTo" v-if="message.user.username !== username">
+      <button @click="replyTo" v-if="message.username !== username">
         <Material icon="reply" class="text-brand" />
       </button>
     </div>
@@ -44,11 +44,11 @@ const emit = defineEmits(["replyTo"]);
 const { $auth } = useContext();
 
 const replyTo = () => {
-  emit("replyTo", props.message.user);
+  emit("replyTo", props.message.username);
 };
 
 const cardStyle = computed(() => {
-  return props.message.user.username === username.value
+  return props.message.username === username.value
     ? "bg-blue-100"
     : isMessageToMe()
     ? "bg-yellow-100"
@@ -58,7 +58,7 @@ const cardStyle = computed(() => {
 const isMessageToMe = () => {
   return (
     props.message.content.includes(username.value + " ->") &&
-    username.value != props.message.user.username
+    username.value != props.message.username
   );
 };
 const username = computed(() => {

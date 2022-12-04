@@ -1,43 +1,26 @@
 export const state = () => ({
   messages: [],
-  lastMessageId: 0,
   pinned: [],
   page: 1,
 });
 
 export const getters = {
   messages: (state) => state.messages,
-  lastMessageId: (state) => state.lastMessageId,
   pinned: (state) => state.pinned,
   page: (state) => state.page,
 };
 
 export const mutations = {
   sendMessage(state, payload) {
-    state.messages.push(payload);
+    state.messages.unshift(payload);
   },
 
   addNewMessages(state, payload) {
-    state.messages.unshift(...payload);
-  },
-
-  setLastMessageId(state, payload) {
-    const lastMessageId = state.lastMessageId;
-    if (payload[0]?.id > lastMessageId) {
-      state.lastMessageId = payload[0].id;
-    }
+    state.messages.push(...payload);
   },
 
   setMessages(state, payload) {
-    let messagesList = [];
-    if (state.messages && state.messages.length > 0) {
-      const messages = state.messages.concat(payload);
-      messagesList = messages;
-    } else {
-      messagesList = payload;
-    }
-
-    context.commit("setLastMessageId", payload);
+    state.messages = payload;
   },
 
   pinMessage(state, payload) {
@@ -63,7 +46,6 @@ export const actions = {
       return;
     }
     context.commit("addNewMessages", payload);
-    context.commit("setLastMessageId", payload);
   },
 
   pinMessage(context, payload) {
@@ -81,12 +63,5 @@ export const actions = {
 
   increasePage(context) {
     context.commit("increasePage");
-  },
-
-  addMessages(context, payload) {
-    if (payload) {
-      payload.map((item) => context.commit("sendMessage", item));
-      context.commit("setLastMessageId", payload);
-    }
   },
 };

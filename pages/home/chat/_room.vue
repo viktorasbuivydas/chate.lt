@@ -99,7 +99,7 @@
               :message="message"
               @replyTo="replyTo($event)"
               :type="
-                message.user.username === $auth.user.data.username
+                message.username === $auth.user.data.username
                   ? 'user'
                   : 'toUser'
               "
@@ -149,8 +149,8 @@ import useChat from "uses/useChat.js";
 import useScroll from "uses/useScroll.js";
 import Header from "@/Header.vue";
 
-const { $axios, $auth } = useContext();
-const { fetchMessages, fetchNewMessages, writeMessage } = useChat();
+const { $axios, $auth, $echo } = useContext();
+const { fetchMessages, writeMessage } = useChat();
 const { scrollToTop } = useScroll();
 const route = useRoute();
 const store = useStore();
@@ -167,7 +167,6 @@ const content = ref({
 const chatContainer = ref(null);
 
 const showEmojis = ref(false);
-const interval = ref(null);
 const loadedFirstData = ref(false);
 const chatId = route.value.params.room;
 
@@ -176,7 +175,7 @@ const getMessages = () => {
     return;
   }
 
-  fetchMessages(chatId, page.value).then(() => {
+  fetchMessages(chatId, page.value, false).then(() => {
     setTimeout(() => {
       scrollToTop("chat-container");
       loadedFirstData.value = true;
@@ -190,7 +189,7 @@ const infiniteScroll = ($state) => {
   }
 
   setTimeout(() => {
-    fetchMessages(chatId, page.value)
+    fetchMessages(chatId, page.value, true)
       .then((response) => {
         if (response.data.length) {
           $state.loaded();
@@ -224,7 +223,7 @@ const sendMessage = () => {
 };
 
 const replyTo = (event) => {
-  content.value.to = event.username;
+  content.value.to = event;
 };
 
 const removeTo = () => {
@@ -239,14 +238,14 @@ const message = computed(() => {
 
 onMounted(async () => {
   getMessages(page.value);
-
-  interval.value = setInterval(() => {
-    fetchNewMessages(chatId);
-  }, 10000);
+  $echo.private("chat." + chatId).listen("MessageSent", (event) => {
+    store.dispatch("chat/sendMessage", event.message);
+    console.log(event);
+  });
 });
 
 onBeforeUnmount(() => {
-  clearInterval(interval.value);
+  store.dispatch("chat/setPage", 1);
 });
 
 const emojiClick = (emoji) => {

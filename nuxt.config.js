@@ -31,6 +31,7 @@ export default {
   plugins: [
     { src: "~/plugins/infiniteloading", ssr: false },
     "~/plugins/vue-gates",
+    { src: "./plugins/echo", mode: "client" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -70,6 +71,7 @@ export default {
   },
   auth: {
     baseURL: process.env.API_BASE,
+    plugins: [{ src: "~/plugins/echo.js", ssr: false }],
     redirect: {
       home: "/home",
       login: "/",
