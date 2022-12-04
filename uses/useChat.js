@@ -5,7 +5,6 @@ export default function useChat() {
   const store = useStore();
 
   const fetchMessages = (chatId, page, loadMore = false) => {
-    console.log(loadMore);
     return new Promise((resolve, reject) => {
       $axios
         .get("/chat/" + chatId + "/index?page=" + page)

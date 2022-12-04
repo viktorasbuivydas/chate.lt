@@ -53,6 +53,14 @@ export default {
     "simple-code-editor/nuxt",
   ],
 
+  publicRuntimeConfig: {
+    pusher: {
+      authEndpoint: process.env.PUSHER_AUTH_ENDPOINT,
+      debug: process.env.PUSHER_DEBUG,
+      key: process.env.PUSHER_APP_KEY,
+    },
+  },
+
   axios: {
     proxy: true,
     credentials: true,
