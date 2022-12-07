@@ -239,7 +239,6 @@ const message = computed(() => {
 onMounted(async () => {
   getMessages(page.value);
   $echo.private("chat." + chatId).listen("MessageSent", (event) => {
-    console.log(event);
     store.dispatch("chat/sendMessage", event.message);
   });
 });
