@@ -59,6 +59,7 @@ export default {
       debug: process.env.PUSHER_DEBUG,
       key: process.env.PUSHER_APP_KEY,
       wshost: process.env.WS_HOST,
+      port: process.env.PUSHER_PORT,
     },
   },
 
