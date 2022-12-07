@@ -14,6 +14,8 @@ export default function useChat() {
           } else {
             store.dispatch("chat/addNewMessages", response.data.data);
           }
+          store.dispatch("chat/increasePage");
+
           resolve(response.data);
         })
         .catch((e) => reject(e));
