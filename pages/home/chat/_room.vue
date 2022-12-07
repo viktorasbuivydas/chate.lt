@@ -239,6 +239,7 @@ const message = computed(() => {
 onMounted(async () => {
   getMessages(page.value);
   $echo.private("chat." + chatId).listen("MessageSent", (event) => {
+    console.log(event);
     store.dispatch("chat/sendMessage", event.message);
   });
 });
@@ -259,6 +260,7 @@ const page = computed(() => {
   return store.getters["chat/page"];
 });
 </script>
+
 <style>
 textarea {
   resize: none;
