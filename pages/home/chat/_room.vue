@@ -245,6 +245,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   store.dispatch("chat/setPage", 1);
+  $echo.leave("private-chat." + chatId);
 });
 
 const emojiClick = (emoji) => {
