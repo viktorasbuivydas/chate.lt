@@ -105,7 +105,7 @@
               "
             />
           </div>
-          <infinite-loading
+          <!-- <infinite-loading
             v-if="messages && loadedFirstData"
             spinner="bubbles"
             @infinite="infiniteScroll"
@@ -114,7 +114,7 @@
             <div slot="no-results" class="p-2">
               Nepavyksta rasti daugiau žinučių
             </div>
-          </infinite-loading>
+          </infinite-loading> -->
           <ScrollToBottom :showScroll="false" />
         </div>
       </div>
