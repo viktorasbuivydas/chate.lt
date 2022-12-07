@@ -16,7 +16,6 @@ export default {
   mounted() {
     this.$echo.channel("posts").listen("PostCreated", (e) => {
       console.log(e);
-      console.log("aaa");
     });
   },
 };
