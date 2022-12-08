@@ -23,7 +23,6 @@
           v-role:any="item.roles"
           class="w-full p-4 hover:bg-brand hover:text-white rounded-xl font-semibold space-x-2 flex items-center text-grayish"
         >
-          {{ item.roles }}
           <Material :icon="item.icon" />
           <span>{{ item.name }}</span>
         </button>
