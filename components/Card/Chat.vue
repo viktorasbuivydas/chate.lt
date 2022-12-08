@@ -5,13 +5,11 @@
   >
     <div class="flex w-full justify-between">
       <div class="flex flex-col items-start text-sm">
-        <div class="flex space-x-2">
+        <div>
           <nuxt-link :to="'/home/about/' + message.username">
             <b>{{ message.username }}</b>
           </nuxt-link>
-          <div>
-            {{ message.content }}
-          </div>
+          {{ message.content }}
         </div>
 
         <div class="text-xs mr-2 mt-1 text-gray-500">
