@@ -238,14 +238,14 @@ const message = computed(() => {
 
 onMounted(async () => {
   getMessages(page.value);
-  $echo.private("chat." + chatId).listen("MessageSent", (event) => {
+  $echo.private("private.chat." + chatId).listen("MessageSent", (event) => {
     store.dispatch("chat/sendMessage", event.message);
   });
 });
 
 onBeforeUnmount(() => {
   store.dispatch("chat/setPage", 1);
-  $echo.leave("private-chat." + chatId);
+  $echo.leave("private.chat." + chatId);
 });
 
 const emojiClick = (emoji) => {
