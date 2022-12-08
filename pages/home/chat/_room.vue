@@ -4,6 +4,10 @@
     <div
       class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-0"
     >
+      <div class="flex">
+        <Back to="/home/chat" />
+      </div>
+
       <div
         class="relative flex flex-col items-center rounded-xl bg-white w-full px-4"
       >
@@ -148,6 +152,7 @@ import ScrollToBottom from "@/ScrollToBottom.vue";
 import useChat from "uses/useChat.js";
 import useScroll from "uses/useScroll.js";
 import Header from "@/Header.vue";
+import Back from "@/Back.vue";
 
 const { $axios, $auth, $echo } = useContext();
 const { fetchMessages, writeMessage, resetChat } = useChat();
