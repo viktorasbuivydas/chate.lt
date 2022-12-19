@@ -9,11 +9,12 @@
         <div class="sm:space-y-0 w-full">
           <div class="flex flex-col space-y-2 w-full">
             <SidebarMenuLink
-              :url="'/home/forum/' + thread.id"
+              v-if="threads && threads.length > 0"
               v-for="thread in threads"
+              :url="'/home/forum/' + thread.id"
             >
-              <Material :icon="thread.icon" />
               <span>{{ thread.name }}</span>
+              <Material :icon="thread.icon" />
               <span
                 class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full"
               >
@@ -50,7 +51,7 @@ const page = computed(() => {
 });
 
 const threads = computed(() => {
-  return store.getters["forum/threads"];
+  return store.getters["forum/thread"];
 });
 
 const items = computed(() => {
@@ -61,5 +62,6 @@ const items = computed(() => {
 <script>
 export default {
   layout: "home",
+  middleware: "auth",
 };
 </script>

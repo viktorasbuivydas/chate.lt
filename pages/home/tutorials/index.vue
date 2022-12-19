@@ -18,6 +18,7 @@
 <script>
 export default {
   layout: "index",
+  middleware: "auth",
 };
 </script>
 <script setup>

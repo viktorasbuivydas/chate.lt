@@ -44,7 +44,7 @@
 export default {
   name: "control",
   layout: "home",
-  middleware: "notUser",
+  middleware: "auth",
 };
 </script>
 

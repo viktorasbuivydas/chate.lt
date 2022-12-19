@@ -4,13 +4,25 @@ export default function useChat() {
   const { $axios } = useContext();
   const store = useStore();
 
-  const fetchThreads = (parentId, page, messages = null) => {
+  const fetchThreads = (parentId, page) => {
     return new Promise((resolve, reject) => {
       const parent = parentId ? "&parent_id=" + parentId : "";
       $axios
         .get("/threads/index?page=" + page + parent)
         .then((response) => {
-          store.dispatch("forum/setThreads", response.data.data);
+          store.dispatch("forum/setThread", response.data.data);
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  const fetchThread = (threadId) => {
+    return new Promise((resolve, reject) => {
+      $axios
+        .get("/threads/" + threadId)
+        .then((response) => {
+          store.dispatch("forum/setThread", response.data.data);
           resolve(response.data);
         })
         .catch((e) => reject(e));
@@ -22,7 +34,6 @@ export default function useChat() {
       $axios
         .get("/questions/thread/" + threadId)
         .then((response) => {
-          console.log(response.data);
           store.dispatch("forum/setQuestions", response.data.data);
           resolve(response.data);
         })
@@ -35,7 +46,6 @@ export default function useChat() {
       $axios
         .get("/questions/" + questionId)
         .then((response) => {
-          console.log(response.data);
           store.dispatch("forum/setQuestion", response.data.data);
           resolve(response.data);
         })
@@ -43,10 +53,10 @@ export default function useChat() {
     });
   };
 
-  const fetchQuestionComments = (questionId) => {
+  const fetchComments = (questionId) => {
     return new Promise((resolve, reject) => {
       $axios
-        .get("/questions/comments/" + questionId)
+        .get("/questions/" + questionId + "/comments")
         .then((response) => {
           console.log(response.data);
           store.dispatch("forum/setComments", response.data.data);
@@ -56,10 +66,40 @@ export default function useChat() {
     });
   };
 
+  const writeQuestion = (name, content, threadId) => {
+    return new Promise((resolve, reject) => {
+      $axios
+        .post("/questions/" + threadId + "/store/", {
+          name: name,
+          content: content,
+        })
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
+  const writeComment = (content, questionId) => {
+    return new Promise((resolve, reject) => {
+      $axios
+        .post("/comments/" + questionId + "/store/", {
+          content: content,
+        })
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((e) => reject(e));
+    });
+  };
+
   return {
     fetchThreads,
+    fetchThread,
     fetchQuestions,
     fetchQuestion,
-    fetchQuestionComments,
+    fetchComments,
+    writeQuestion,
+    writeComment
   };
 }

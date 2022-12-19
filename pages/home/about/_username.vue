@@ -166,6 +166,7 @@
 <script>
 export default {
   layout: "home",
+  middleware: ["auth"],
 };
 </script>
 
@@ -191,7 +192,7 @@ const getUserByUsername = () => {
       user.value = response.data.data;
     })
     .catch((e) => {
-      error({ statusCode: 404, message: "Post not found" });
+      error({ statusCode: 404, message: "User not found" });
     });
 };
 

@@ -1,5 +1,5 @@
 export const state = () => ({
-  threads: [],
+  thread: null,
   questions: [],
   comments: [],
   question: null,
@@ -7,7 +7,7 @@ export const state = () => ({
 });
 
 export const getters = {
-  threads: (state) => state.threads,
+  thread: (state) => state.thread,
   questions: (state) => state.questions,
   comments: (state) => state.comments,
   question: (state) => state.question,
@@ -15,8 +15,8 @@ export const getters = {
 };
 
 export const mutations = {
-  setThreads(state, payload) {
-    state.threads = payload;
+  setThread(state, payload) {
+    state.thread = payload;
   },
 
   setQuestions(state, payload) {
@@ -41,8 +41,8 @@ export const mutations = {
 };
 
 export const actions = {
-  setThreads(context, payload) {
-    context.commit("setThreads", payload);
+  setThread(context, payload) {
+    context.commit("setThread", payload);
   },
 
   setQuestions(context, payload) {

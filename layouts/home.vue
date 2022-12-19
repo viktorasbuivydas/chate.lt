@@ -10,16 +10,6 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  middleware: ["auth"],
-  mounted() {
-    this.$echo.channel("posts").listen("PostCreated", (e) => {
-      console.log(e);
-    });
-  },
-};
-</script>
 
 <script setup>
 import LeftSidebar from "@/LeftSidebar.vue";
@@ -33,7 +23,9 @@ import Alerts from "@/Alerts.vue";
 const store = useStore();
 const { $auth } = useContext();
 
-onMounted(() => {});
+onMounted(() => {
+  console.log($auth);
+});
 useAsync(() => {
   const user = $auth.user.data;
 

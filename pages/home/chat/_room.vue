@@ -129,6 +129,7 @@
 <script>
 export default {
   layout: "home",
+  middleware: ["auth"],
 };
 </script>
 
@@ -137,7 +138,6 @@ import Material from "@/Material.vue";
 import CardChat from "@/Card/Chat.vue";
 import Emojipicker from "@/Emojipicker.vue";
 import Loader from "@/Loader.vue";
-import ErrorsAlert from "@/Errors/Alert.vue";
 import {
   ref,
   onMounted,
@@ -154,7 +154,7 @@ import useScroll from "uses/useScroll.js";
 import Header from "@/Header.vue";
 import Back from "@/Back.vue";
 
-const { $axios, $auth, $echo } = useContext();
+const { $auth, $echo } = useContext();
 const { fetchMessages, writeMessage, resetChat } = useChat();
 const { scrollToTop } = useScroll();
 const route = useRoute();
@@ -162,7 +162,6 @@ const store = useStore();
 
 const room = ref(null);
 const loading = ref(false);
-const currentPage = ref(1);
 
 const content = ref({
   to: "",
