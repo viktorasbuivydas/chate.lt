@@ -238,9 +238,25 @@ const message = computed(() => {
 
 onMounted(async () => {
   getMessages(page.value);
-  $echo.private("private.chat." + chatId).listen("MessageSent", (event) => {
-    store.dispatch("chat/sendMessage", event.message);
-  });
+  $echo
+    .join("presence-chat." + chatId)
+    .here((users) => {
+      console.log(users);
+    })
+    .joining((user) => {
+      console.log(user);
+    })
+    .leaving((user) => {
+      console.log(user);
+    })
+    .listen("MessageSent", (event) => {
+      store.dispatch("chat/sendMessage", event.message);
+    });
+
+  // Echo.join('online')
+  //         .here(users => (this.users = users))
+  //         .joining(user => this.users.push(user))
+  //         .leaving(user => (this.users = this.users.filter(u => (u.id !== user.id))))
 });
 
 onBeforeUnmount(() => {
