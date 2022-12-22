@@ -26,4 +26,9 @@ export const actions = {
   pushError(context, payload) {
     context.commit("setError", payload);
   },
+
+  clearAlerts(context) {
+    context.commit("setError", null);
+    context.commit("setSuccess", null);
+  },
 };

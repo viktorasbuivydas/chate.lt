@@ -1,8 +1,10 @@
 import { useContext, useStore } from "@nuxtjs/composition-api";
+import useAlerts from "./useAlerts";
 
 export default function useChat() {
   const { $axios } = useContext();
   const store = useStore();
+  const alert = useAlerts();
 
   const fetchThreads = (parentId, page) => {
     return new Promise((resolve, reject) => {
@@ -76,7 +78,12 @@ export default function useChat() {
         .then((response) => {
           resolve(response.data);
         })
-        .catch((e) => reject(e));
+        .catch((e) => {
+          if (e.response.data.message) {
+            alert.pushErrorAlert(e.response.data.message);
+          }
+          reject(e);
+        });
     });
   };
 
@@ -89,7 +96,12 @@ export default function useChat() {
         .then((response) => {
           resolve(response.data);
         })
-        .catch((e) => reject(e));
+        .catch((e) => {
+          if (e.response.data.message) {
+            alert.pushErrorAlert(e.response.data.message);
+          }
+          reject(e);
+        });
     });
   };
 
@@ -100,6 +112,6 @@ export default function useChat() {
     fetchQuestion,
     fetchComments,
     writeQuestion,
-    writeComment
+    writeComment,
   };
 }

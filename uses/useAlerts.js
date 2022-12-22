@@ -28,14 +28,6 @@ export default function useAlerts() {
 
   const pushErrorAlert = (message) => {
     store.dispatch("alert/pushError", message);
-
-    if (errorTimer.value !== null) {
-      clearTimeout(errorTimer.value);
-    }
-
-    errorTimer.value = setTimeout(function () {
-      store.dispatch("alert/pushError", null);
-    }, 10000);
   };
 
   const closeErrorToast = () => {

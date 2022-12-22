@@ -60,9 +60,10 @@ import BaseButtonsSimple from "@/Base/Buttons/Simple.vue";
 import useForum from "uses/useForum.js";
 import CardChat from "@/Card/Chat.vue";
 
+const { fetchQuestion, fetchComments, writeComment } = useForum();
 const route = useRoute();
 const store = useStore();
-const { fetchQuestion, fetchComments, writeComment } = useForum();
+
 const form = ref({
   content: "",
   to: "",
@@ -108,10 +109,14 @@ const removeTo = () => {
 };
 
 const storeQuestion = () => {
-  writeComment(form.value.content, route.value.params.id).then(() => {
-    form.value.content = "";
-    fetchComments(route.value.params.id);
-  });
+  writeComment(form.value.content, route.value.params.id)
+    .then(() => {
+      form.value.content = "";
+      fetchComments(route.value.params.id);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 </script>
 
