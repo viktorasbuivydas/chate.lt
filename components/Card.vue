@@ -8,9 +8,32 @@
       <div class="text-2xl font-medium leading-normal text-gray-800 p-2">
         <slot name="headline"></slot>
       </div>
-      <div class="flex flex-col flex-grow">
-        <slot name="content" />
+      <div
+        class="grid grid-col-1 gap-x-5"
+        :class="{
+          'md:grid-cols-1': !showOnline,
+          'md:grid-cols-3': showOnline,
+        }"
+      >
+        <div class="md:col-span-2 flex flex-col flex-grow">
+          <slot name="content" />
+        </div>
+        <template v-if="showOnline">
+          <div class="hidden md:flex flex-col">
+            <Online />
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
+<script setup>
+import Online from "@/Online.vue";
+
+defineProps({
+  showOnline: {
+    type: Boolean,
+    default: true,
+  },
+});
+</script>

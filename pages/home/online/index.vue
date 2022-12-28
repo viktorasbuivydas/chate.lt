@@ -1,5 +1,5 @@
 <template>
-  <Card class="flex flex-col">
+  <Card class="flex flex-col" :showOnline="false">
     <template #header>
       <Header />
     </template>

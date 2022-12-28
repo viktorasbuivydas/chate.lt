@@ -6,7 +6,6 @@
         <Alerts />
         <Nuxt />
       </div>
-      .
     </div>
   </div>
 </template>
@@ -20,6 +19,7 @@ import {
   useStore,
 } from "@nuxtjs/composition-api";
 import Alerts from "@/Alerts.vue";
+
 const store = useStore();
 const { $auth } = useContext();
 

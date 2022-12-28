@@ -38,15 +38,20 @@
       </div>
       <div class="sm:space-y-0 w-full">
         <div class="mb-4">Komentarai</div>
-        <CardChat
-          v-for="(message, index) in comments"
-          :key="index"
-          :message="message"
-          @replyTo="replyTo($event)"
-          :type="
-            message.username === $auth.user.data.username ? 'user' : 'toUser'
-          "
-        />
+        <template v-if="comments && comments.length">
+          <CardChat
+            v-for="(message, index) in comments"
+            :key="index"
+            :message="message"
+            @replyTo="replyTo($event)"
+            :type="
+              message.username === $auth.user.data.username ? 'user' : 'toUser'
+            "
+          />
+        </template>
+        <template v-else>
+          <div class="text-center text-gray-500">Komentarų nėra</div>
+        </template>
       </div>
     </div>
   </div>
