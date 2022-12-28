@@ -44,6 +44,8 @@ export default function useChat() {
   };
 
   const fetchQuestion = (questionId) => {
+    alert.closeAlerts();
+
     return new Promise((resolve, reject) => {
       $axios
         .get("/questions/" + questionId)
@@ -56,6 +58,8 @@ export default function useChat() {
   };
 
   const fetchComments = (questionId) => {
+    alert.closeAlerts();
+
     return new Promise((resolve, reject) => {
       $axios
         .get("/questions/" + questionId + "/comments")
@@ -69,6 +73,7 @@ export default function useChat() {
   };
 
   const writeQuestion = (name, content, threadId) => {
+    alert.closeAlerts();
     return new Promise((resolve, reject) => {
       $axios
         .post("/questions/" + threadId + "/store/", {
@@ -79,7 +84,7 @@ export default function useChat() {
           resolve(response.data);
         })
         .catch((e) => {
-          if (e.response.data.message) {
+          if (e.response.status !== 422) {
             alert.pushErrorAlert(e.response.data.message);
           }
           reject(e);
@@ -88,6 +93,8 @@ export default function useChat() {
   };
 
   const writeComment = (content, questionId) => {
+    alert.closeAlerts();
+
     return new Promise((resolve, reject) => {
       $axios
         .post("/comments/" + questionId + "/store/", {

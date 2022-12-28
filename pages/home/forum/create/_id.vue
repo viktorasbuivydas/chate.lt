@@ -11,19 +11,23 @@
         <div>
           <input
             v-model="form.name"
+            @input="clearError('name')"
             required
             class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-indigo-300 p-2"
           />
+          <ErrorsForm :error="errors?.name" />
         </div>
         <div>Žinutė</div>
         <div>
           <textarea
             v-model="form.content"
+            @input="clearError('content')"
             required
             class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-indigo-300 p-2"
             rows="5"
           >
           </textarea>
+          <ErrorsForm :error="errors?.content" />
         </div>
         <div>
           <BaseButtonsSimple>Rašyti</BaseButtonsSimple>
@@ -41,12 +45,15 @@ import Header from "@/Header.vue";
 import BaseButtonsSimple from "@/Base/Buttons/Simple.vue";
 import useForum from "uses/useForum.js";
 import useAlerts from "uses/useAlerts.js";
+import ErrorsForm from "@/Errors/Form.vue";
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
 const { fetchThread, writeQuestion } = useForum();
 const { pushSuccessAlert } = useAlerts();
+const errors = ref(null);
+
 const form = ref({
   name: "",
   content: "",
@@ -78,15 +85,20 @@ const routes = computed(() => {
 });
 
 const storeQuestion = () => {
-  writeQuestion(
-    form.value.name,
-    form.value.content,
-    route.value.params.id
-  ).then(() => {
-    pushSuccessAlert("Klausimas sėkmingai užduotas!");
-    router.push("/home/forum/threads/" + route.value.params.id);
-    //redirect to route using route.value
-  });
+  writeQuestion(form.value.name, form.value.content, route.value.params.id)
+    .then(() => {
+      pushSuccessAlert("Klausimas sėkmingai užduotas!");
+      router.push("/home/forum/threads/" + route.value.params.id);
+      //redirect to route using route.value
+    })
+    .catch((error) => {
+      errors.value = error.response.data.errors;
+    });
+};
+
+const clearError = (error) => {
+  if (!errors.value) return;
+  errors.value[error] = null;
 };
 </script>
 

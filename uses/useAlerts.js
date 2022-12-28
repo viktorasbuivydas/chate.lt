@@ -27,11 +27,23 @@ export default function useAlerts() {
   );
 
   const pushErrorAlert = (message) => {
+    if (errorTimer.value !== null) {
+      clearTimeout(errorTimer.value);
+    }
+
+    errorTimer.value = setTimeout(function () {
+      store.dispatch("alert/pushError", null);
+    }, 20000);
     store.dispatch("alert/pushError", message);
   };
 
   const closeErrorToast = () => {
     store.dispatch("alert/pushError", null);
+  };
+
+  const closeAlerts = () => {
+    store.dispatch("alert/pushError", null);
+    store.dispatch("alert/pushSuccess", null);
   };
 
   const hasErrorAlert = computed(
@@ -46,5 +58,6 @@ export default function useAlerts() {
     closeErrorToast,
     closeErrorToast,
     hasErrorAlert,
+    closeAlerts,
   };
 }

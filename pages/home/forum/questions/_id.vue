@@ -29,6 +29,7 @@
               rows="5"
             >
             </textarea>
+            <ErrorsForm :error="errors?.content" />
           </div>
           <div>
             <BaseButtonsSimple>Rašyti</BaseButtonsSimple>
@@ -59,10 +60,12 @@ import Header from "@/Header.vue";
 import BaseButtonsSimple from "@/Base/Buttons/Simple.vue";
 import useForum from "uses/useForum.js";
 import CardChat from "@/Card/Chat.vue";
+import ErrorsForm from "@/Errors/Form.vue";
 
 const { fetchQuestion, fetchComments, writeComment } = useForum();
 const route = useRoute();
 const store = useStore();
+const errors = ref([]);
 
 const form = ref({
   content: "",
@@ -115,7 +118,7 @@ const storeQuestion = () => {
       fetchComments(route.value.params.id);
     })
     .catch((error) => {
-      console.log(error);
+      errors.value = error.response.data.errors;
     });
 };
 </script>
