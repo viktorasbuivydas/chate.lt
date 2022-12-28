@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="to"
-    class="focus:outline-none flex items-center justify-center w-full sm:w-auto bg-blue-600 transition duration-150 ease-in-out hover:bg-blue-700 rounded text-white px-8 py-3 text-sm mt-6"
+    class="focus:outline-none flex items-center justify-center w-full sm:w-auto bg-blue-500 transition duration-150 ease-in-out hover:bg-blue-600 rounded text-white px-8 py-3 text-sm"
   >
     <template v-if="loading">
       <Loader />

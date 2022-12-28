@@ -64,6 +64,7 @@
 <script>
 export default {
   layout: "home",
+  middleware: ["auth"],
 };
 </script>
 
@@ -75,7 +76,7 @@ import Skeleton from "@/Skeleton.vue";
 import Header from "@/Header.vue";
 
 const rooms = ref(null);
-const { $axios } = useContext();
+const { $axios, error } = useContext();
 const loading = ref(true);
 const getRooms = () => {
   loading.value = true;

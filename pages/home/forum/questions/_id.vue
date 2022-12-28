@@ -1,56 +1,136 @@
 <template>
-  <Card>
-    <template #header>
-      <Header />
-    </template>
-    <template #content>
-      <div class="px-4 py-2 flex items-center">
-        <Material icon="arrow_back" />
-        <nuxt-link to="/home/forum">Atgal</nuxt-link>
+  <div class="flex flex-col space-y-4">
+    <Header />
+    <BreadcrumbsForum :routes="routes" />
+    <div class="flex flex-col space-y-4 py-2 px-4">
+      <div
+        v-if="question"
+        class="w-full rounded-md py-4 px-5 bg-white border border-gray-200 dark:bg-gray-800"
+      >
+        <div class="font-semibold text-lg">
+          {{ question.name }}
+        </div>
+        <div>
+          {{ question.content }}
+        </div>
       </div>
-      <div>
-        <div>{{ question.name }}</div>
-        <div>{{ question.content }}</div>
+
+      <div class="sm:space-y-0 w-full">
+        <form
+          @submit.prevent="storeQuestion"
+          class="flex flex-col space-y-2 w-full"
+        >
+          <div>Jūsų žinutė</div>
+          <div>
+            <textarea
+              v-model="form.content"
+              required
+              class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-indigo-300 p-2"
+              rows="5"
+            >
+            </textarea>
+            <ErrorsForm :error="errors?.content" />
+          </div>
+          <div>
+            <BaseButtonsSimple>Rašyti</BaseButtonsSimple>
+          </div>
+        </form>
       </div>
       <div class="sm:space-y-0 w-full">
-        <div class="flex flex-col space-y-2 w-full"></div>
+        <div class="mb-4">Komentarai</div>
+        <template v-if="comments && comments.length">
+          <CardChat
+            v-for="(message, index) in comments"
+            :key="index"
+            :message="message"
+            @replyTo="replyTo($event)"
+            :type="
+              message.username === $auth.user.data.username ? 'user' : 'toUser'
+            "
+          />
+        </template>
+        <template v-else>
+          <div class="text-center text-gray-500">Komentarų nėra</div>
+        </template>
       </div>
-    </template>
-  </Card>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import Card from "@/Card.vue";
 import { ref, computed, onMounted } from "vue";
-import menuData from "+/menu.json";
-import SidebarMenuLink from "@/Sidebar/MenuLink.vue";
-import Material from "@/Material.vue";
-import Header from "@/Header.vue";
 import { useRoute, useStore } from "@nuxtjs/composition-api";
+import BreadcrumbsForum from "@/Breadcrumbs/Forum.vue";
+import Header from "@/Header.vue";
+import BaseButtonsSimple from "@/Base/Buttons/Simple.vue";
 import useForum from "uses/useForum.js";
+import CardChat from "@/Card/Chat.vue";
+import ErrorsForm from "@/Errors/Form.vue";
 
+const { fetchQuestion, fetchComments, writeComment } = useForum();
 const route = useRoute();
 const store = useStore();
-const { fetchQuestion } = useForum();
-onMounted(() => {
-  fetchQuestion(route.value.params.id);
+const errors = ref([]);
+
+const form = ref({
+  content: "",
+  to: "",
 });
 
-const page = computed(() => {
-  return store.getters["forum/page"];
+onMounted(() => {
+  fetchQuestion(route.value.params.id);
+  fetchComments(route.value.params.id);
 });
 
 const question = computed(() => {
   return store.getters["forum/question"];
 });
 
-// const comments = computed(() => {
-//   return store.getters["forum/comments"];
-// });
+const comments = computed(() => {
+  return store.getters["forum/comments"];
+});
+
+const routes = computed(() => {
+  return [
+    {
+      name: "Forumas",
+      url: "/home/forum",
+    },
+    {
+      name: question.value?.thread.name,
+      url: "/home/forum/threads/" + question.value?.thread.id,
+    },
+    {
+      name: question.value?.name,
+      url: "/home/forum/create",
+    },
+  ];
+});
+
+const replyTo = (event) => {
+  console.log(event);
+  form.value.to = event;
+};
+
+const removeTo = () => {
+  content.value.to = "";
+};
+
+const storeQuestion = () => {
+  writeComment(form.value.content, route.value.params.id)
+    .then(() => {
+      form.value.content = "";
+      fetchComments(route.value.params.id);
+    })
+    .catch((error) => {
+      errors.value = error.response.data.errors;
+    });
+};
 </script>
 
 <script>
 export default {
   layout: "home",
+  middleware: "auth",
 };
 </script>

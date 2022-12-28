@@ -8,118 +8,130 @@
         <Back to="/home/chat" />
       </div>
 
-      <div
-        class="relative flex flex-col items-center rounded-xl bg-white w-full px-4"
-      >
-        <div class="absolute top-25 right-0">
-          <Emojipicker v-if="showEmojis" @emoji_click="emojiClick" />
-        </div>
-      </div>
-      <div v-if="content.to" class="flex items-center space-x-2 w-full ml-2">
-        <div>
-          <b>{{ content.to }}</b>
-        </div>
-        <button
-          class="text-brand flex items-center rounded-md p-1"
-          @click="removeTo"
-        >
-          <Material icon="close" />
-        </button>
-      </div>
-      <form
-        @submit.prevent="sendMessage"
-        class="flex flex-col space-y-2 items-center w-full py-2"
-      >
-        <div class="w-full">
-          <div class="relative w-full">
-            <textarea
-              v-model="content.body"
-              maxlength="500"
-              rows="3"
-              class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-indigo-300 p-2"
-            ></textarea>
-            <div
-              @click="showEmojis = !showEmojis"
-              class="hidden sm:flex cursor-pointer absolute items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
+      <div class="grid grid-cols-3 gap-x-5">
+        <div class="col-span-2">
+          <div
+            class="relative flex flex-col items-center rounded-xl bg-white w-full px-4"
+          >
+            <div class="absolute top-25 right-0">
+              <Emojipicker v-if="showEmojis" @emoji_click="emojiClick" />
+            </div>
+          </div>
+          <div
+            v-if="content.to"
+            class="flex items-center space-x-2 w-full ml-2"
+          >
+            <div>
+              <b>{{ content.to }}</b>
+            </div>
+            <button
+              class="text-brand flex items-center rounded-md p-1"
+              @click="removeTo"
             >
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </div>
+              <Material icon="close" />
+            </button>
           </div>
-        </div>
-        <div class="w-full flex justify-end">
-          <button
-            type="submit"
-            :disabled="loading"
-            class="ml-1 flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-5 py-2 flex-shrink-0"
+          <form
+            @submit.prevent="sendMessage"
+            class="flex flex-col space-y-2 items-center w-full py-2"
           >
-            <template v-if="loading">
-              <Loader />
-            </template>
-            <template v-else>
-              <span>Rašyti</span>
-              <span class="ml-2 mb-1">
-                <svg
-                  class="w-4 h-4 transform rotate-45 -mt-px"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div class="w-full">
+              <div class="relative w-full">
+                <textarea
+                  v-model="content.body"
+                  maxlength="500"
+                  rows="3"
+                  class="flex w-full pr-10 border rounded-xl focus:outline-none focus:border-indigo-300 p-2"
+                ></textarea>
+                <div
+                  @click="showEmojis = !showEmojis"
+                  class="hidden sm:flex cursor-pointer absolute items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                  ></path>
-                </svg>
-              </span>
-            </template>
-          </button>
-        </div>
-      </form>
-      <div
-        class="flex flex-col h-full mb-4"
-        id="chat-container"
-        ref="chatContainer"
-      >
-        <div class="flex flex-col h-full relative">
-          <div class="flex flex-col">
-            <CardChat
-              v-for="(message, index) in messages"
-              :key="index"
-              :message="message"
-              @replyTo="replyTo($event)"
-              :type="
-                message.username === $auth.user.data.username
-                  ? 'user'
-                  : 'toUser'
-              "
-            />
-          </div>
-          <infinite-loading
-            v-if="messages && loadedFirstData"
-            spinner="bubbles"
-            @infinite="infiniteScroll"
-          >
-            <div slot="no-more" class="p-2">Žinučių daugiau neturime :(</div>
-            <div slot="no-results" class="p-2">
-              Nepavyksta rasti daugiau žinučių
+                  <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
             </div>
-          </infinite-loading>
-          <ScrollToBottom :showScroll="false" />
+            <div class="w-full flex justify-end">
+              <button
+                type="submit"
+                :disabled="loading"
+                class="ml-1 flex items-center justify-center bg-blue-500 hover:bg-blue-600 rounded-xl text-white px-5 py-2 flex-shrink-0"
+              >
+                <template v-if="loading">
+                  <Loader />
+                </template>
+                <template v-else>
+                  <span>Rašyti</span>
+                  <span class="ml-2 mb-1">
+                    <svg
+                      class="w-4 h-4 transform rotate-45 -mt-px"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                      ></path>
+                    </svg>
+                  </span>
+                </template>
+              </button>
+            </div>
+          </form>
+          <div
+            class="flex flex-col h-full mb-4"
+            id="chat-container"
+            ref="chatContainer"
+          >
+            <div class="flex flex-col h-full relative">
+              <div class="flex flex-col">
+                <CardChat
+                  v-for="(message, index) in messages"
+                  :key="index"
+                  :message="message"
+                  @replyTo="replyTo($event)"
+                  :type="
+                    message.username === $auth.user.data.username
+                      ? 'user'
+                      : 'toUser'
+                  "
+                />
+              </div>
+              <infinite-loading
+                v-if="messages && loadedFirstData"
+                spinner="bubbles"
+                @infinite="infiniteScroll"
+              >
+                <div slot="no-more" class="p-2">
+                  Žinučių daugiau neturime :(
+                </div>
+                <div slot="no-results" class="p-2">
+                  Nepavyksta rasti daugiau žinučių
+                </div>
+              </infinite-loading>
+              <ScrollToBottom :showScroll="false" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <Online />
         </div>
       </div>
     </div>
@@ -129,6 +141,7 @@
 <script>
 export default {
   layout: "home",
+  middleware: ["auth"],
 };
 </script>
 
@@ -137,7 +150,7 @@ import Material from "@/Material.vue";
 import CardChat from "@/Card/Chat.vue";
 import Emojipicker from "@/Emojipicker.vue";
 import Loader from "@/Loader.vue";
-import ErrorsAlert from "@/Errors/Alert.vue";
+import Online from "@/Online.vue";
 import {
   ref,
   onMounted,
@@ -154,7 +167,7 @@ import useScroll from "uses/useScroll.js";
 import Header from "@/Header.vue";
 import Back from "@/Back.vue";
 
-const { $axios, $auth, $echo } = useContext();
+const { $auth, $echo } = useContext();
 const { fetchMessages, writeMessage, resetChat } = useChat();
 const { scrollToTop } = useScroll();
 const route = useRoute();
@@ -162,7 +175,6 @@ const store = useStore();
 
 const room = ref(null);
 const loading = ref(false);
-const currentPage = ref(1);
 
 const content = ref({
   to: "",

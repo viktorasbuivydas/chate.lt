@@ -10,16 +10,19 @@
       <div class="col-span-2">
         <div class="w-full flex flex-col space-y-5 items-center">
           <TabHeadline title="Užklausų valdymas" :tabs="tabs" />
-          <template v-if="activeTab === 'all'">
-            <template v-if="requests && requests.length">
-              <CardsRow
-                v-for="request in requests"
-                :title="request.email"
-                :content="request.content"
-              />
-            </template>
-            <template v-else>
-              <ErrorsAlert />
+          <template v-if="activeTab === 'send'">
+            <template>
+              <FormRow title="Siųsti užklausą">
+                <label>El. pašto adresas</label>
+                <input
+                  id="email"
+                  required
+                  v-model="form.email"
+                  class="h-10 px-2 w-full rounded mt-2 text-gray-600 focus:outline-none focus:border focus:border-blue-700 dark:focus:border-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 border-gray-300 border shadow"
+                  type="text"
+                />
+                <BaseButtonsSimple> Siųsti </BaseButtonsSimple>
+              </FormRow>
             </template>
           </template>
           <template v-else>
@@ -44,7 +47,7 @@
 export default {
   name: "control",
   layout: "home",
-  middleware: "notUser",
+  middleware: "auth",
 };
 </script>
 
@@ -58,19 +61,25 @@ import { useStore, computed } from "@nuxtjs/composition-api";
 import ErrorsAlert from "@/Errors/Alert.vue";
 import useRequest from "uses/useRequest.js";
 import Header from "@/Header.vue";
+import FormRow from "@/Cards/FormRow.vue";
+import BaseButtonsSimple from "@/Base/Buttons/Simple.vue";
 
 const store = useStore();
 const { fetchRequests } = useRequest();
 const tabs = ref([
   {
-    name: "Naujos",
-    value: "new",
+    name: "Siųsti",
+    value: "send",
   },
   {
-    name: "Visos",
-    value: "all",
+    name: "Išsiųsti",
+    value: "sent",
   },
 ]);
+
+const form = ref({
+  email: "",
+});
 
 const activeTab = computed(() => {
   return store.getters["user/tab"];

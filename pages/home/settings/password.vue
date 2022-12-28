@@ -67,7 +67,7 @@
 export default {
   name: "settings",
   layout: "home",
-  middleware: "notUser",
+  middleware: "auth",
 };
 </script>
 

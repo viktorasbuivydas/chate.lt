@@ -81,7 +81,11 @@ export default {
   },
   auth: {
     baseURL: process.env.API_BASE,
-    plugins: [{ src: "~/plugins/echo.js", ssr: false }],
+    autoLogout: true,
+    plugins: [
+      { src: "~/plugins/echo.js", ssr: false },
+      "~/plugins/loggedIn.js",
+    ],
     redirect: {
       home: "/home",
       login: "/",
