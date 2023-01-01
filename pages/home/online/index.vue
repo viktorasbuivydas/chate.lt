@@ -16,7 +16,7 @@
             >
           </div>
           <div
-            class="grid grid-cols-1 sm:grid-cols-4 space-y-1 mt-4 -mx-2 overflow-y-auto"
+            class="grid grid-cols-1 sm:grid-cols-4 gap-5 mt-4 -mx-2 overflow-y-auto"
           >
             <nuxt-link
               v-for="user in users"

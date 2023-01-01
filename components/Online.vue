@@ -9,7 +9,7 @@
           >{{ users.length }}</span
         >
       </div>
-      <div class="grid sm:grid-cols-1 space-y-1 mt-4 -mx-2 overflow-y-auto">
+      <div class="grid sm:grid-cols-1 space-y-2 mt-4 -mx-2 overflow-y-auto">
         <nuxt-link
           v-for="user in users"
           :to="
